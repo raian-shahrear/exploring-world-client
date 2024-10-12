@@ -1,19 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import { useUser } from "@/context/user.provider";
+import { useLogin } from "@/hooks/auth.hook";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { toast } from "sonner";
 
 const Login = () => {
+  const { setIsLoading: setUserLoading } = useUser();
+  const { mutate: handleUserLogin, isPending } = useLogin();
+  const [showPass, setShowPass] = useState(false);
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+  const router = useRouter();
+  const pathname = usePathname();
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
     reset,
   } = useForm();
-  const [showPass, setShowPass] = useState(false);
 
   const handleLogin: SubmitHandler<FieldValues> = async (data) => {
     if (isValid || !isSubmitting) {
@@ -22,8 +31,7 @@ const Login = () => {
           email: data.email,
           password: data.password,
         };
-        toast.success("Login successful!");
-        console.log(newLogin);
+        handleUserLogin(newLogin);
         reset();
       } catch (err: any) {
         toast.error(
@@ -32,6 +40,27 @@ const Login = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (!isPending) {
+      if (redirect) {
+        router.push(redirect);
+      } else if (pathname.match("/login")) {
+        router.push("/login");
+      } else {
+        router.push("/");
+      }
+      setUserLoading(true);
+    }
+  }, [isPending, redirect]);
+
+  if (isPending) {
+    return (
+      <div className="absolute top-2/4 left-2/4">
+        <span className="loading loading-infinity w-20"></span>
+      </div>
+    );
+  }
   return (
     <div className="container mx-auto px-4 lg:px-10 xxl:px-0 py-20 min-h-screen flex justify-center items-center">
       <div className="w-full">

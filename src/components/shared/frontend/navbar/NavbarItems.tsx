@@ -10,7 +10,7 @@ const NavbarItems = () => {
       <li>
         <Link
           href="/"
-          className={`${
+          className={`me-1 hover:text-gray-900 ${
             pathname === "/" ? "text-gray-900  bg-gray-200" : "text-gray-500"
           }`}
         >
@@ -20,7 +20,7 @@ const NavbarItems = () => {
       <li>
         <Link
           href="/news-feed"
-          className={`${
+          className={`me-1 hover:text-gray-900 ${
             pathname === "/news-feed"
               ? "text-gray-900  bg-gray-200"
               : "text-gray-500"
@@ -31,20 +31,8 @@ const NavbarItems = () => {
       </li>
       <li>
         <Link
-          href="/profile"
-          className={`${
-            pathname.match("/profile")
-              ? "text-gray-900  bg-gray-200"
-              : "text-gray-500"
-          }`}
-        >
-          Profile
-        </Link>
-      </li>
-      <li>
-        <Link
           href="/about-us"
-          className={`${
+          className={`me-1 hover:text-gray-900 ${
             pathname === "/about-us"
               ? "text-gray-900  bg-gray-200"
               : "text-gray-500"
@@ -56,7 +44,7 @@ const NavbarItems = () => {
       <li>
         <Link
           href="/contact-us"
-          className={`${
+          className={`me-1 hover:text-gray-900 ${
             pathname === "/contact-us"
               ? "text-gray-900  bg-gray-200"
               : "text-gray-500"

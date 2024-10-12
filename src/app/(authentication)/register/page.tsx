@@ -1,14 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import { useRegistration } from "@/hooks/auth.hook";
 import { getImageUrl } from "@/utils/getImageUrl";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { toast } from "sonner";
 
 const Register = () => {
+  const { mutate: handleRegistration, isPending } = useRegistration();
   const [showPass, setShowPass] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
   const {
     register,
     handleSubmit,
@@ -28,8 +33,7 @@ const Register = () => {
           address: data.address,
           profile: imageUrl,
         };
-        toast.success("Login successful!");
-        console.log(newUser);
+        handleRegistration(newUser);
         reset();
       } catch (err: any) {
         toast.error(
@@ -38,6 +42,23 @@ const Register = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (!isPending) {
+      if (pathname.match("/register")) {
+        router.push("/register");
+      } else {
+        router.push("/");
+      }
+    }
+  }, [isPending]);
+  if (isPending) {
+    return (
+      <div className="absolute top-2/4 left-2/4">
+        <span className="loading loading-infinity w-20"></span>
+      </div>
+    );
+  }
   return (
     <div className="container mx-auto px-4 lg:px-10 xxl:px-0 py-20 min-h-screen flex justify-center items-center">
       <div className="w-full">

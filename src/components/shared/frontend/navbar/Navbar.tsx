@@ -28,7 +28,7 @@ const FrontendNavbar = () => {
   };
 
   return (
-    <div className=" bg-slate-50 shadow-md fixed w-full">
+    <div className=" bg-slate-50 shadow-md fixed w-full z-10">
       <div className="navbar lg:container mx-auto">
         <div className="navbar-start">
           <div className="dropdown">

@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { loginUser, registerUser } from "@/actions/AuthActions";
-import { useMutation } from "@tanstack/react-query";
+import {
+  followUser,
+  getAllUsers,
+  loginUser,
+  registerUser,
+  unfollowUser,
+} from "@/actions/AuthActions";
+import { useUser } from "@/context/user.provider";
+import { TLoggedInUser } from "@/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -26,6 +34,47 @@ export const useLogin = () => {
     },
     onError: (error) => {
       toast.error(error?.message);
+    },
+  });
+};
+
+export const useGetAllUser = () => {
+  return useQuery({
+    queryKey: ["GET_USER"],
+    queryFn: async () => await getAllUsers(),
+  });
+};
+
+export const useFollowUser = () => {
+  const { setUser } = useUser();
+  const queryClient = useQueryClient();
+  return useMutation<any, Error, FieldValues>({
+    mutationKey: ["FOLLOW_USER"],
+    mutationFn: async (userData) => await followUser(userData),
+    onSuccess: ({ decodedUser }) => {
+      setUser(decodedUser as TLoggedInUser);
+      toast.success("User updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["GET_USER"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useUnfollowUser = () => {
+  const { setUser } = useUser();
+  const queryClient = useQueryClient();
+  return useMutation<any, Error, FieldValues>({
+    mutationKey: ["UNFOLLOW_USER"],
+    mutationFn: async (userData) => await unfollowUser(userData),
+    onSuccess: ({ decodedUser }) => {
+      setUser(decodedUser as TLoggedInUser);
+      toast.success("User updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["GET_USER"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 };

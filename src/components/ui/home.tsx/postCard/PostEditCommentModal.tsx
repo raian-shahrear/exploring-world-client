@@ -1,9 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useUpdateComment } from "@/hooks/comment.hook";
+import { TDisplayComment } from "@/types";
 import React from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
 import { MdEdit } from "react-icons/md";
+import { toast } from "sonner";
 
-const PostEditCommentModal = ({ id }: { id: string }) => {
+type TProps = {
+  id: string;
+  comment: TDisplayComment;
+};
+
+const PostEditCommentModal = ({ id, comment }: TProps) => {
   const openModal = () => {
     const modal = document.getElementById(id) as HTMLDialogElement | null;
     if (modal) {
@@ -11,11 +20,38 @@ const PostEditCommentModal = ({ id }: { id: string }) => {
     }
   };
 
-  const { register, handleSubmit } = useForm();
+  const {
+    mutate: handleUpdateComment,
+    isPending: updateCommentPending,
+  } = useUpdateComment();
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid, isSubmitting },
+  } = useForm();
 
   const handleComment: SubmitHandler<FieldValues> = (data) => {
-    console.log(data.comment);
+    if (isValid || !isSubmitting) {
+      try{
+        const newComment = {
+          comment: data.comment,
+        };
+    
+        handleUpdateComment({ commentId: comment?._id, commentData: newComment });
+      }catch (err: any) {
+        toast.error(
+          err?.data?.message ? err?.data?.message : "Something went wrong!"
+        );
+      }
+    }
   };
+  if (updateCommentPending) {
+    return (
+      <div className="absolute top-2/4 left-2/4">
+        <span className="loading loading-infinity w-20"></span>
+      </div>
+    );
+  }
   return (
     <>
       <button onClick={openModal}>
@@ -24,7 +60,7 @@ const PostEditCommentModal = ({ id }: { id: string }) => {
       <dialog id={id} className="modal">
         <div className="modal-box">
           <div className="grid grid-cols-[auto_14px] items-start gap-5 mb-4">
-            <p className="font-bold text-lg">Edit comment for {id}</p>
+            <p className="font-bold text-lg">Edit comment</p>
             <form method="dialog">
               <button className="text-lg">
                 <IoClose />
@@ -34,9 +70,7 @@ const PostEditCommentModal = ({ id }: { id: string }) => {
 
           <form onSubmit={handleSubmit(handleComment)}>
             <textarea
-              defaultValue={
-                "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum voluptatibus molestiae magnam! Voluptatibus corporis error, alias quasi hic quae veniam facilis enim ea, modi veritatis quaerat aut, vero iusto numquam dolore itaque. Dignissimos reprehenderit possimus asperiores cupiditate eligendi veritatis nobis nulla veniam aliquam totam porro dolor laborum, soluta quas sint."
-              }
+              defaultValue={comment?.comment}
               className="min-h-20 w-full border bg-gray-100 focus-within:bg-white p-2 text-xs"
               {...register("comment")}
             />

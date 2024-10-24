@@ -1,12 +1,41 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import JoditEditor from "jodit-react";
 import Image from "next/image";
-import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import JoditEditor from "jodit-react";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { getImageUrl } from "@/utils/getImageUrl";
+import { useRouter } from "next/navigation";
+import { useCreatePost } from "@/hooks/post.hook";
+import { useGetCategories } from "@/hooks/category.hook";
+import { TPost, TPostCategory } from "@/types";
 
 const PostCreate = () => {
+  const router = useRouter();
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [imagesPreview, setImagesPreview] = useState<string[]>([]);
+  const editor = useRef(null);
+  const [travelGuide, setTravelGuide] = useState("");
+  const [destinationTips, setDestinationTips] = useState("");
+  const {
+    mutate: handleCreatePost,
+    isPending: createPostPending,
+    isSuccess,
+  } = useCreatePost();
+  const { data: categoriesData, isLoading: categoryLoading } =
+    useGetCategories();
+
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      toolbarSticky: false,
+      height: 300,
+      toolbar: true,
+    }),
+    []
+  );
+
   const {
     register,
     handleSubmit,
@@ -14,18 +43,32 @@ const PostCreate = () => {
     reset,
   } = useForm();
 
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
-  const [imagesPreview, setImagesPreview] = useState<string[]>([]);
-
   const handlePost: SubmitHandler<FieldValues> = async (data) => {
-    const newPost = {
-      title: data?.title,
-      category: data?.category,
-      image: selectedImages,
-      travelStory: data?.travelStory,
-    };
-
-    console.log(newPost);
+    if (isValid || !isSubmitting) {
+      try {
+        const imageUrl = await getImageUrl.getMultiImageUrl(selectedImages);
+        const newPost: TPost = {
+          title: data?.title,
+          category: data?.category,
+          image: imageUrl,
+          travelStory: data?.travelStory,
+          premium: {
+            travelGuide,
+            destinationTips,
+          },
+        };
+        handleCreatePost(newPost);
+        reset();
+        setSelectedImages([]);
+        setImagesPreview([]);
+        setTravelGuide("");
+        setDestinationTips("");
+      } catch (err: any) {
+        toast.error(
+          err?.data?.message ? err?.data?.message : "Something went wrong!"
+        );
+      }
+    }
   };
 
   //   image preview
@@ -54,12 +97,27 @@ const PostCreate = () => {
     });
   };
 
+  useEffect(() => {
+    if (!createPostPending && isSuccess) {
+      router.push("/");
+    }
+  }, [createPostPending, isSuccess, router]);
+
+  if (createPostPending) {
+    return (
+      <div className="absolute top-2/4 left-2/4">
+        <span className="loading loading-infinity w-20"></span>
+      </div>
+    );
+  }
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-center">Create A Post</h1>
+      <h1 className="text-2xl font-semibold text-center mb-10">
+        Create A Post
+      </h1>
       <div>
         <form onSubmit={handleSubmit(handlePost)}>
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div className="flex flex-col gap-1">
               <label className="text-sm font-semibold">
                 Post Title<span className="text-red-600">*</span>
@@ -67,7 +125,7 @@ const PostCreate = () => {
               <input
                 type="text"
                 placeholder="Title..."
-                className="input input-bordered w-full text-sm h-9"
+                className="input input-bordered w-full text-base h-9"
                 {...register("title", { required: true })}
               />
               {errors.title && (
@@ -81,14 +139,16 @@ const PostCreate = () => {
                 Category<span className="text-red-600">*</span>
               </label>
               <select
-                className="select select-bordered w-full text-sm min-h-9 h-9"
+                className="select select-bordered w-full text-base min-h-9 h-9"
                 {...register("category", { required: true })}
+                disabled={categoryLoading}
               >
                 <option value="">Select category</option>
-                <option value="6706b444bf98886baeacba5d">Adventure</option>
-                <option value="6706b85cbf98886baeacba60">
-                  Business Travel
-                </option>
+                {categoriesData?.data?.map((category: TPostCategory) => (
+                  <option key={category?._id} value={category?._id}>
+                    {category?.title}
+                  </option>
+                ))}
               </select>
               {errors.category && (
                 <span className="text-xs text-red-600 mt-[2px] inline-block">
@@ -106,7 +166,7 @@ const PostCreate = () => {
                 type="file"
                 multiple
                 accept="image/*"
-                className="file-input file-input-bordered w-full text-sm h-9"
+                className="file-input file-input-bordered w-full text-base h-9"
                 {...register("image", { required: "Image is required" })}
                 onChange={(e) => {
                   handleImageChange(e);
@@ -118,8 +178,8 @@ const PostCreate = () => {
                 </span>
               )}
             </div>
-            {imagesPreview.length > 0 && (
-              <div className="flex flex-wrap gap-2 border border-gray-300 border-dashed p-2 rounded-lg">
+            {imagesPreview?.length > 0 && (
+              <div className="flex flex-wrap gap-2 border border-gray-400 border-dashed p-4 rounded-lg">
                 {imagesPreview.map((img, idx) => (
                   <Image
                     key={idx}
@@ -138,7 +198,7 @@ const PostCreate = () => {
               Travel Story<span className="text-red-600">*</span>
             </label>
             <textarea
-              className="textarea textarea-bordered w-full text-sm"
+              className="textarea textarea-bordered w-full text-base"
               placeholder="Travel story..."
               {...register("travelStory", { required: true })}
             ></textarea>
@@ -148,13 +208,42 @@ const PostCreate = () => {
               </span>
             )}
           </div>
-
-          <div>
-
+          <div className="mb-6 border border-gray-400 border-dashed p-4 rounded-lg">
+            <label className="text-base font-semibold mb-2 inline-block">
+              Premium Area (optional)
+            </label>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-semibold inline-block mb-1">
+                  Travel Guide
+                </label>
+                <JoditEditor
+                  ref={editor}
+                  value={travelGuide}
+                  config={config}
+                  onChange={(newContent) => {
+                    setTravelGuide(newContent);
+                  }}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-semibold inline-block mb-1">
+                  Destination Tips
+                </label>
+                <JoditEditor
+                  ref={editor}
+                  value={destinationTips}
+                  config={config}
+                  onChange={(newContent) => {
+                    setDestinationTips(newContent);
+                  }}
+                />
+              </div>
+            </div>
           </div>
 
-          <div>
-            <button type="submit" className="btn btn-sm btn-neutral">
+          <div className="flex justify-center items-center">
+            <button type="submit" className="btn btn-neutral">
               Submit
             </button>
           </div>

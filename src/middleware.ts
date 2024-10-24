@@ -3,7 +3,7 @@ import { getCurrentUser } from "./actions/AuthActions";
 
 const AuthRoutes = ["/login", "/register"];
 const roleBaseRoutes = {
-  user: ["/profile", "/profile/:path*", "/dashboard", "/dashboard/posts", "/dashboard/follow-users", "/dashboard/my-profile"],
+  user: ["/profile", "/profile/:path*", "/posts/create", "/posts/edit/:path*", "/dashboard", "/dashboard/posts", "/dashboard/follow-users", "/dashboard/my-profile"],
   admin: ["/dashboard", "/dashboard/posts", "/dashboard/users" , "/dashboard/my-profile"],
 };
 
@@ -31,5 +31,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/profile", "/profile/:path*", "/dashboard", "/dashboard/:path*", "/login", "/register"],
+  matcher: ["/profile", "/profile/:path*", "/posts/create", "/posts/edit/:path*", "/dashboard", "/dashboard/:path*", "/login", "/register"],
 };

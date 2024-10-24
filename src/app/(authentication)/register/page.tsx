@@ -24,7 +24,7 @@ const Register = () => {
   const handleSignup: SubmitHandler<FieldValues> = async (data) => {
     if (isValid || !isSubmitting) {
       try {
-        const imageUrl = await getImageUrl(data.profile[0]);
+        const imageUrl = await getImageUrl.getSingleImageUrl(data.profile[0]);
         const newUser = {
           name: data.name,
           email: data.email,

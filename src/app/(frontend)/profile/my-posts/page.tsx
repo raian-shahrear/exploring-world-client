@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import CreatePost from "@/components/ui/home/CreatePost";
 import PostSmallCard from "@/components/ui/postSmallCard/PostSmallCard";
 import { useUser } from "@/context/user.provider";
 import { useGetAllUser } from "@/hooks/auth.hook";
@@ -9,16 +10,16 @@ import React from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoWarningOutline } from "react-icons/io5";
 
-const FollowingPosts = ({ params }: { params: { slug: string[] } }) => {
+const MyPosts = () => {
   const { user: findUser, isLoading: userLoading } = useUser();
   // get user info
   const { data: allUsers } = useGetAllUser();
   const loggedInUser: TUser = allUsers?.data?.find(
-    (user: TUser) => user?._id === params?.slug[0]
+    (user: TUser) => user?._id === findUser?.id
   );
   // get post info
   const { data: posts, isLoading: postLoading } = useGetAllPosts({
-    authors: params?.slug[0] ? [params?.slug[0]] : [],
+    authors: loggedInUser?._id ? [loggedInUser?._id] : [],
   });
   const { mutate: handleDeletePost } = useDeletePost();
 
@@ -52,9 +53,13 @@ const FollowingPosts = ({ params }: { params: { slug: string[] } }) => {
           <div className="text-center mt-2">
             <p>
               {loggedInUser?.isVerified === "verified" ? (
-                <span className="text-success text-[11px] font-medium flex justify-center items-center gap-1 mb-3">
+                <span className="text-success text-[11px] font-medium flex items-center gap-1 mb-3">
                   <FaCheckCircle /> Verified
                 </span>
+              ) : loggedInUser?.isVerified === "pending" ? (
+                <button className="text-orange-600 text-[11px] font-medium flex items-center gap-1 btn btn-xs btn-outline mx-auto mb-3">
+                  <IoWarningOutline /> Verify account
+                </button>
               ) : (
                 <span className="text-gray-500 text-[11px] font-medium flex justify-center items-center gap-1 mb-3">
                   <IoWarningOutline /> Not Verified
@@ -66,6 +71,11 @@ const FollowingPosts = ({ params }: { params: { slug: string[] } }) => {
             </p>
             <p className="text-xs">{loggedInUser?.email}</p>
           </div>
+        </div>
+      )}
+      {findUser && findUser?.role === "user" && (
+        <div className="mt-10 w-8/12 mx-auto">
+          <CreatePost userLoading={userLoading} findUser={findUser} />
         </div>
       )}
       {posts?.data?.length > 0 ? (
@@ -101,4 +111,4 @@ const FollowingPosts = ({ params }: { params: { slug: string[] } }) => {
   );
 };
 
-export default FollowingPosts;
+export default MyPosts;

@@ -29,7 +29,10 @@ export const deletePost = async (postId: string): Promise<any> => {
 };
 
 // update post
-export const updatePost = async (postId: string, formData: TPost): Promise<any> => {
+export const updatePost = async (
+  postId: string,
+  formData: TPost
+): Promise<any> => {
   try {
     const { data } = await axiosInstance.patch(`/post/${postId}`, formData);
     revalidateTag("posts");
@@ -60,7 +63,10 @@ export const getAllPosts = async (params: TFilterProps) => {
       revalidate: 1,
     },
   };
-  const res = await fetch(`${envConfig.API_URL}/post?${queryString}`, fetchOption);
+  const res = await fetch(
+    `${envConfig.API_URL}/post?${queryString}`,
+    fetchOption
+  );
   return res.json();
 };
 

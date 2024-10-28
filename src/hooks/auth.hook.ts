@@ -2,6 +2,7 @@
 import {
   followUser,
   getAllUsers,
+  getAllUsersName,
   loginUser,
   registerUser,
   unfollowUser,
@@ -42,6 +43,12 @@ export const useGetAllUser = () => {
   return useQuery({
     queryKey: ["GET_USER"],
     queryFn: async () => await getAllUsers(),
+  });
+};
+export const useGetAllUserName = () => {
+  return useQuery({
+    queryKey: ["GET_USER_NAME"],
+    queryFn: async () => await getAllUsersName(),
   });
 };
 

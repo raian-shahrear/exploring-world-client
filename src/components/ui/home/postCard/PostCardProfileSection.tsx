@@ -86,7 +86,7 @@ const PostCardProfileSection = ({
               )}
           </p>
           <p className="text-xs font-medium flex items-center gap-1">
-            <IoTimeOutline /> {formatPostDate(post.createdAt)}
+            <IoTimeOutline /> {formatPostDate(post?.createdAt)}
           </p>
         </div>
       </div>

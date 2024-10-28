@@ -1,10 +1,12 @@
 "use client";
+import { useUser } from "@/context/user.provider";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 const NavbarItems = () => {
   const pathname = usePathname();
+  const { user } = useUser();
   return (
     <>
       <li>
@@ -29,6 +31,20 @@ const NavbarItems = () => {
           News Feed
         </Link>
       </li>
+      {user?.role === "user" && (
+        <li>
+          <Link
+            href="/profile/my-posts"
+            className={`me-1 hover:text-gray-900 ${
+              pathname === "/profile/my-posts"
+                ? "text-gray-900  bg-gray-200"
+                : "text-gray-500"
+            }`}
+          >
+            My Posts
+          </Link>
+        </li>
+      )}
       <li>
         <Link
           href="/about-us"

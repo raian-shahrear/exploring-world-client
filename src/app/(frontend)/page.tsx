@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import CreatePost from "@/components/ui/home.tsx/CreatePost";
-import PostCard from "@/components/ui/home.tsx/postCard/PostCard";
-import PostCategory from "@/components/ui/home.tsx/PostCategory";
-import SidebarFollow from "@/components/ui/home.tsx/SidebarFollow";
-import SidebarProfile from "@/components/ui/home.tsx/SidebarProfile";
+import CreatePost from "@/components/ui/home/CreatePost";
+import PostCard from "@/components/ui/home/postCard/PostCard";
+import PostCategory from "@/components/ui/home/PostCategory";
+import SidebarFollow from "@/components/ui/home/SidebarFollow";
+import SidebarProfile from "@/components/ui/home/SidebarProfile";
 import { useUser } from "@/context/user.provider";
 import React, { useState } from "react";
 

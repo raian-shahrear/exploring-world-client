@@ -91,5 +91,17 @@ export type TFilterProps = {
   limit?: number;
   page?: number;
   categories?: string | string[];
-  authors?: string[];
-}
+  authors?: string | string[];
+};
+
+export type TInitialStateForPost = {
+  search: string;
+  category: string[];
+  author: string[];
+  sortBy: string;
+};
+export type TActionForPost =
+  | { type: "search"; payload: string }
+  | { type: "sortBy"; payload: string }
+  | { type: "category"; payload: string[] }
+  | { type: "author"; payload: string[] };

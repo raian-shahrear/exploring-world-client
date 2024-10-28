@@ -9,6 +9,7 @@ import { format, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { IoMdArrowDropdown, IoMdArrowDropup, IoMdClose } from "react-icons/io";
 
 type TProps = {
   userLoading: boolean;
@@ -16,6 +17,8 @@ type TProps = {
 };
 
 const SidebarProfile = ({ userLoading, findUser }: TProps) => {
+  const [controlFollowing, setControlFollowing] = useState(false);
+  const [controlFollower, setControlFollower] = useState(false);
   const [accountCreatedDate, setAccountCreatedDate] = useState("");
   const { data: allUsers } = useGetAllUser();
   const loggedInUser: TUser = allUsers?.data?.find(
@@ -102,12 +105,40 @@ const SidebarProfile = ({ userLoading, findUser }: TProps) => {
                   <p className="text-xs font-semibold mb-2 grid grid-cols-[65px_8px_auto]">
                     <span>Following</span>
                     <span>:</span>
-                    <span>{findUser?.following?.length}</span>
+                    <div className="flex items-center gap-2">
+                      <span>{findUser?.following?.length}</span>
+                      {findUser?.following?.length > 0 && (
+                        <span
+                          className="btn h-5 min-h-5 w-5 p-0 rounded-md btn-outline flex md:hidden"
+                          onClick={() => setControlFollowing(!controlFollowing)}
+                        >
+                          {controlFollowing ? (
+                            <IoMdArrowDropup />
+                          ) : (
+                            <IoMdArrowDropdown />
+                          )}
+                        </span>
+                      )}
+                    </div>
                   </p>
                   <p className="text-xs font-semibold grid grid-cols-[65px_8px_auto]">
                     <span>Follower</span>
                     <span>:</span>
-                    <span>{findUser?.follower?.length}</span>
+                    <div className="flex items-center gap-2">
+                      {findUser?.follower?.length}
+                      {findUser?.follower?.length > 0 && (
+                        <span
+                          className="btn h-5 min-h-5 w-5 p-0 rounded-md btn-outline flex md:hidden"
+                          onClick={() => setControlFollower(!controlFollower)}
+                        >
+                          {controlFollower ? (
+                            <IoMdArrowDropup />
+                          ) : (
+                            <IoMdArrowDropdown />
+                          )}
+                        </span>
+                      )}
+                    </div>
                   </p>
                 </>
               )}
@@ -115,16 +146,31 @@ const SidebarProfile = ({ userLoading, findUser }: TProps) => {
           </div>
           {findUser?.role === "user" && (
             <div className="mt-4 block md:hidden">
-              <div className="border rounded-lg w-full p-4">
-                <p className="text-sm font-semibold mb-2">
-                  Following ({findUser?.following?.length}) :
-                </p>
-                <div className="mt-2 flex flex-col gap-1">
+              <div
+                className={`border rounded-lg w-full p-4 ${
+                  controlFollowing ? "block" : "hidden"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-semibold mb-2">
+                    Following ({findUser?.following?.length}) :
+                  </p>
+                  <span
+                    className="btn h-5 min-h-5 w-5 p-0 rounded-md btn-outline"
+                    onClick={() => setControlFollowing(false)}
+                  >
+                    <IoMdClose />
+                  </span>
+                </div>
+                <div className="mt-2 flex flex-col gap-1 max-h-36 overflow-y-auto overflow-x-hidden">
                   {loggedInUser?.following?.map((follow: any, idx: number) => (
-                    <div key={idx} className="grid grid-cols-[auto_50px] gap-3">
+                    <div
+                      key={idx}
+                      className="grid grid-cols-[auto_50px] gap-3 pr-4"
+                    >
                       <Link
                         href={`/profile/following/${follow?.user?._id}/posts`}
-                        className="grid grid-cols-[28px_auto] items-center gap-2"
+                        className="grid grid-cols-[28px_auto] items-center gap-2 w-fit"
                       >
                         <Image
                           src={follow?.user?.profile}
@@ -148,16 +194,27 @@ const SidebarProfile = ({ userLoading, findUser }: TProps) => {
                 </div>
               </div>
 
-              <div className="border rounded-lg w-full p-4 mt-2">
-                <p className="text-sm font-semibold mb-2">
-                  Follower ({findUser?.follower?.length}) :
-                </p>
-                <div className="mt-2 flex flex-col gap-1">
+              <div
+                className={`border rounded-lg w-full p-4 mt-2 ${
+                  controlFollower ? "block" : "hidden"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-semibold mb-2">
+                    Follower ({findUser?.follower?.length}) :
+                  </p>
+                  <span
+                    className="btn h-5 min-h-5 w-5 p-0 rounded-md btn-outline"
+                    onClick={() => setControlFollower(false)}
+                  >
+                    <IoMdClose />
+                  </span>
+                </div>
+                <div className="mt-2 flex flex-col gap-1 max-h-36 overflow-y-auto overflow-x-hidden">
                   {loggedInUser?.follower?.map((follow: any, idx: number) => (
-                    <Link
+                    <div
                       key={idx}
-                      href={`/profile/following/${follow?.user?._id}/posts`}
-                      className="grid grid-cols-[24px_auto] items-center gap-1"
+                      className="grid grid-cols-[24px_auto] items-center gap-2 w-fit pr-4"
                     >
                       <Image
                         src={follow?.user?.profile}
@@ -169,7 +226,7 @@ const SidebarProfile = ({ userLoading, findUser }: TProps) => {
                       <p className="text-xs font-semibold text-ellipsis whitespace-nowrap overflow-hidden">
                         {follow?.user?.name}
                       </p>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               </div>

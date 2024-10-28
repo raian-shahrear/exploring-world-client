@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
   useDeletePost,
   useDownvotePost,
@@ -23,14 +23,14 @@ type TProps = {
 const PostCard = ({ controlCategoryTab, userLoading, findUser }: TProps) => {
   // const [searchTerm, setSearchTerm] = useState<string>("");
   // const [sort, setSort] = useState<string>("");
-  const [limit, setLimit] = useState<number>(5);
+  // const [limit, setLimit] = useState<number>(5);
   // const [page, setPage] = useState<number>(1);
   // const [authors, setAuthors] = useState<string[]>([]);
 
   const { data: posts, isLoading: postLoading } = useGetAllPosts({
     // searchTerm,
     // sort,
-    limit,
+    limit: 5,
     // page,
     categories: controlCategoryTab !== "0" ? controlCategoryTab : "",
     // authors,

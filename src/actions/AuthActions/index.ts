@@ -53,6 +53,15 @@ export const getAllUsers = async () => {
   }
 };
 
+export const getAllUsersName = async () => {
+  try {
+    const { data } = await axiosInstance.get(`/auth/users-name`);
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
 export const getNewAccessToken = async () => {
   const currentTime = new Date().getTime() / 1000;
   try {

@@ -52,7 +52,7 @@ const EditPostById = ({ params }: { params: any }) => {
       const fetchedPost = postSingleData?.data;
       setPostData(fetchedPost);
       setValue("title", fetchedPost?.title);
-      setValue("category", fetchedPost?.category);
+      setValue("category", fetchedPost?.category?._id);
       setValue("travelStory", fetchedPost?.travelStory);
       setImagesPreview(fetchedPost?.image || []);
       setTravelGuide(fetchedPost?.premium?.travelGuide || "");
@@ -160,7 +160,6 @@ const EditPostById = ({ params }: { params: any }) => {
               <input
                 type="text"
                 placeholder="Title..."
-                // defaultValue={postData?.title}
                 className="input input-bordered w-full text-base h-9"
                 {...register("title")}
               />
@@ -170,7 +169,6 @@ const EditPostById = ({ params }: { params: any }) => {
               <select
                 className="select select-bordered w-full text-base min-h-9 h-9"
                 {...register("category")}
-                // defaultValue={postData?.category}
                 disabled={categoryLoading}
               >
                 <option value="">Select category</option>
@@ -225,7 +223,6 @@ const EditPostById = ({ params }: { params: any }) => {
             <textarea
               className="textarea textarea-bordered w-full text-base"
               placeholder="Travel story..."
-              // defaultValue={postData?.travelStory}
               {...register("travelStory")}
             ></textarea>
           </div>

@@ -38,7 +38,7 @@ const SidebarFollow = ({ userLoading, findUser }: TProps) => {
                 <div key={idx} className="grid grid-cols-[auto_50px] gap-3">
                   <Link
                     href={`/profile/following/${follow?.user?._id}/posts`}
-                    className="grid grid-cols-[28px_auto] items-center gap-2"
+                    className="grid grid-cols-[28px_auto] items-center gap-2 w-fit"
                   >
                     <Image
                       src={follow?.user?.profile}
@@ -67,10 +67,9 @@ const SidebarFollow = ({ userLoading, findUser }: TProps) => {
             </p>
             <div className="mt-2 flex flex-col gap-1">
               {loggedInUser?.follower?.map((follow: any, idx: number) => (
-                <Link
+                <div
                   key={idx}
-                  href={`/profile/following/${follow?.user?._id}/posts`}
-                  className="grid grid-cols-[24px_auto] items-center gap-1"
+                  className="grid grid-cols-[24px_auto] items-center gap-2 w-fit"
                 >
                   <Image
                     src={follow?.user?.profile}
@@ -82,7 +81,7 @@ const SidebarFollow = ({ userLoading, findUser }: TProps) => {
                   <p className="text-xs font-semibold text-ellipsis whitespace-nowrap overflow-hidden">
                     {follow?.user?.name}
                   </p>
-                </Link>
+                </div>
               ))}
             </div>
           </div>

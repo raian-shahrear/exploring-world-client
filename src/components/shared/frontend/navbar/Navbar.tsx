@@ -31,7 +31,7 @@ const FrontendNavbar = () => {
     <div className=" bg-slate-50 shadow-md fixed w-full z-10">
       <div className="navbar lg:container mx-auto">
         <div className="navbar-start">
-          <div className="dropdown">
+          <div className="dropdown me-2">
             <div
               tabIndex={0}
               role="button"
@@ -100,11 +100,7 @@ const FrontendNavbar = () => {
                     <ul>
                       <li>
                         <Link
-                          href={
-                            user?.role === "user"
-                              ? "/profile"
-                              : "/dashboard/my-profile"
-                          }
+                          href="/dashboard/my-profile"
                         >
                           <span className="text-lg">
                             <FaUserCog />

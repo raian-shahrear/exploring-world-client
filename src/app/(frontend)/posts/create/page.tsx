@@ -99,7 +99,7 @@ const PostCreate = () => {
 
   useEffect(() => {
     if (!createPostPending && isSuccess) {
-      router.push("/");
+      router.push("/profile/my-posts");
     }
   }, [createPostPending, isSuccess, router]);
 

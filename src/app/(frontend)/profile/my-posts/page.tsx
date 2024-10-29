@@ -53,11 +53,11 @@ const MyPosts = () => {
           <div className="text-center mt-2">
             <p>
               {loggedInUser?.isVerified === "verified" ? (
-                <span className="text-success text-[11px] font-medium flex items-center gap-1 mb-3">
+                <span className="text-green-600 text-[11px] font-medium flex items-center gap-1 mb-3">
                   <FaCheckCircle /> Verified
                 </span>
               ) : loggedInUser?.isVerified === "pending" ? (
-                <button className="text-orange-600 text-[11px] font-medium flex items-center gap-1 btn btn-xs btn-outline mx-auto mb-3">
+                <button className="text-orange-600 text-[11px] font-medium flex items-center gap-1 border border-orange-600 rounded-md px-1 mx-auto mb-3">
                   <IoWarningOutline /> Verify account
                 </button>
               ) : (

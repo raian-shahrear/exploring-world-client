@@ -6,7 +6,7 @@ const FrontendLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <FrontendNavbar />
-      <div className="min-h-[93vh] pt-[100px] container mx-auto px-2">
+      <div className="min-h-[91vh] pt-[100px] container mx-auto px-2">
         {children}
       </div>
       <div className="mt-6">

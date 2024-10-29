@@ -52,7 +52,7 @@ const FollowingPosts = ({ params }: { params: { slug: string[] } }) => {
           <div className="text-center mt-2">
             <p>
               {loggedInUser?.isVerified === "verified" ? (
-                <span className="text-success text-[11px] font-medium flex justify-center items-center gap-1 mb-3">
+                <span className="text-green-600 text-[11px] font-medium flex justify-center items-center gap-1 mb-3">
                   <FaCheckCircle /> Verified
                 </span>
               ) : (

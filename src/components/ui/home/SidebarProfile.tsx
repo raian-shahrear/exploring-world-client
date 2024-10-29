@@ -62,11 +62,11 @@ const SidebarProfile = ({ userLoading, findUser }: TProps) => {
               <p className="text-sm font-semibold mb-3">
                 <span className="mb-[2px] block">{findUser?.userName}</span>
                 {loggedInUser?.isVerified === "verified" ? (
-                  <span className="text-success text-[11px] font-medium flex items-center gap-1">
+                  <span className="text-green-600 text-[11px] font-medium flex items-center gap-1">
                     <FaCheckCircle /> Verified
                   </span>
                 ) : loggedInUser?.isVerified === "pending" ? (
-                  <button className="text-orange-600 text-[11px] font-medium flex items-center gap-1 btn btn-xs btn-outline">
+                  <button className="text-orange-600 text-[11px] font-medium flex items-center gap-1 border border-orange-600 rounded-md px-1">
                     <IoWarningOutline /> Verify account
                   </button>
                 ) : (
@@ -108,8 +108,9 @@ const SidebarProfile = ({ userLoading, findUser }: TProps) => {
                     <div className="flex items-center gap-2">
                       <span>{findUser?.following?.length}</span>
                       {findUser?.following?.length > 0 && (
-                        <span
-                          className="btn h-5 min-h-5 w-5 p-0 rounded-md btn-outline flex md:hidden"
+                        <button
+                          type="button"
+                          className="border border-gray-400 h-5 w-5 rounded-md flex justify-center items-center md:hidden"
                           onClick={() => setControlFollowing(!controlFollowing)}
                         >
                           {controlFollowing ? (
@@ -117,7 +118,7 @@ const SidebarProfile = ({ userLoading, findUser }: TProps) => {
                           ) : (
                             <IoMdArrowDropdown />
                           )}
-                        </span>
+                        </button>
                       )}
                     </div>
                   </p>
@@ -127,8 +128,9 @@ const SidebarProfile = ({ userLoading, findUser }: TProps) => {
                     <div className="flex items-center gap-2">
                       {findUser?.follower?.length}
                       {findUser?.follower?.length > 0 && (
-                        <span
-                          className="btn h-5 min-h-5 w-5 p-0 rounded-md btn-outline flex md:hidden"
+                        <button
+                          type="button"
+                          className="border border-gray-400 h-5 w-5 rounded-md flex justify-center items-center md:hidden"
                           onClick={() => setControlFollower(!controlFollower)}
                         >
                           {controlFollower ? (
@@ -136,7 +138,7 @@ const SidebarProfile = ({ userLoading, findUser }: TProps) => {
                           ) : (
                             <IoMdArrowDropdown />
                           )}
-                        </span>
+                        </button>
                       )}
                     </div>
                   </p>

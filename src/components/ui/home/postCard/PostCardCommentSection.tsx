@@ -73,9 +73,9 @@ const PostCardCommentSection = ({
           {findUser &&
           findUser?.id !== post?.author?._id &&
           findUser?.role === "user" ? (
-            <>
+            <div className="flex items-center gap-1">
               <button
-                className={`btn btn-xs me-2 ${upvoteUser && "text-blue-500"}`}
+                className={`flex items-center gap-1 text-xs py-1 px-2 bg-gray-200 rounded-md me-2 ${upvoteUser && "text-blue-500"}`}
                 onClick={() => handlePostUpvote(post?._id)}
               >
                 <span className="text-sm">
@@ -84,7 +84,7 @@ const PostCardCommentSection = ({
                 Upvote {post?.upvote?.length ? post?.upvote?.length : "0"}
               </button>
               <button
-                className={`btn btn-xs ${downvoteUser && "text-blue-500"}`}
+                className={`flex items-center gap-1 text-xs py-1 px-2 bg-gray-200 rounded-md me-2 ${downvoteUser && "text-blue-500"}`}
                 onClick={() => handlePostDownvote(post?._id)}
               >
                 <span className="text-sm">
@@ -92,7 +92,7 @@ const PostCardCommentSection = ({
                 </span>{" "}
                 Downvote {post?.downvote?.length ? post?.downvote?.length : "0"}
               </button>
-            </>
+            </div>
           ) : (
             <>
               <span className="me-2 font-semibold text-xs">

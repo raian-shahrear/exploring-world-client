@@ -160,14 +160,14 @@ const EditPostById = ({ params }: { params: any }) => {
               <input
                 type="text"
                 placeholder="Title..."
-                className="input input-bordered w-full text-base h-9"
+                className="border border-gray-300 py-1 px-2 rounded-lg w-full text-sm h-9"
                 {...register("title")}
               />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-sm font-semibold">Category</label>
               <select
-                className="select select-bordered w-full text-base min-h-9 h-9"
+                className="border border-gray-300 py-1 px-2 rounded-lg w-full text-sm h-9"
                 {...register("category")}
                 disabled={categoryLoading}
               >
@@ -187,7 +187,7 @@ const EditPostById = ({ params }: { params: any }) => {
                 type="file"
                 multiple
                 accept="image/*"
-                className="file-input file-input-bordered w-full text-base h-9"
+                className="border border-gray-300 py-1 px-2 rounded-lg w-full text-sm h-9"
                 {...register("image")}
                 onChange={(e) => {
                   handleImageChange(e);
@@ -261,7 +261,7 @@ const EditPostById = ({ params }: { params: any }) => {
           </div>
 
           <div className="flex justify-center items-center">
-            <button type="submit" className="btn btn-neutral">
+            <button type="submit" className="bg-gray-900 text-white py-2 px-3 rounded-md">
               Update
             </button>
           </div>

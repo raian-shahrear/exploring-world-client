@@ -125,7 +125,7 @@ const PostCreate = () => {
               <input
                 type="text"
                 placeholder="Title..."
-                className="input input-bordered w-full text-base h-9"
+                className="border border-gray-300 py-1 px-2 rounded-lg w-full text-sm h-9"
                 {...register("title", { required: true })}
               />
               {errors.title && (
@@ -139,7 +139,7 @@ const PostCreate = () => {
                 Category<span className="text-red-600">*</span>
               </label>
               <select
-                className="select select-bordered w-full text-base min-h-9 h-9"
+                className="border border-gray-300 py-1 px-2 rounded-lg w-full text-sm h-9"
                 {...register("category", { required: true })}
                 disabled={categoryLoading}
               >
@@ -166,7 +166,7 @@ const PostCreate = () => {
                 type="file"
                 multiple
                 accept="image/*"
-                className="file-input file-input-bordered w-full text-base h-9"
+                className="border border-gray-300 py-1 px-2 rounded-lg w-full text-sm h-9"
                 {...register("image", { required: "Image is required" })}
                 onChange={(e) => {
                   handleImageChange(e);
@@ -198,7 +198,7 @@ const PostCreate = () => {
               Travel Story<span className="text-red-600">*</span>
             </label>
             <textarea
-              className="textarea textarea-bordered w-full text-base"
+              className="border border-gray-300 py-1 px-2 rounded-lg w-full text-sm"
               placeholder="Travel story..."
               {...register("travelStory", { required: true })}
             ></textarea>
@@ -243,7 +243,7 @@ const PostCreate = () => {
           </div>
 
           <div className="flex justify-center items-center">
-            <button type="submit" className="btn btn-neutral">
+            <button type="submit" className="bg-gray-900 text-white py-2 px-3 rounded-md">
               Submit
             </button>
           </div>

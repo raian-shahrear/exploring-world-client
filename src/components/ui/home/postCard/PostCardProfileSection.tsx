@@ -9,6 +9,7 @@ import { TDisplayPost, TLoggedInUser } from "@/types";
 import { formatPostDate } from "@/utils/postDate";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { useFollowUser, useUnfollowUser } from "@/hooks/auth.hook";
+import { useState } from "react";
 
 type TProps = {
   post: TDisplayPost;
@@ -23,6 +24,7 @@ const PostCardProfileSection = ({
 }: TProps) => {
   const { mutate: handleFollow } = useFollowUser();
   const { mutate: handleUnfollow } = useUnfollowUser();
+  const [postDropdown, setPostDropdown] = useState(false);
 
   // delete post
   const handlePostDelete = (postId: string) => {
@@ -47,6 +49,10 @@ const PostCardProfileSection = ({
     };
     handleUnfollow(user);
   };
+
+  // const handlePostActionDropdown = (postId: string) =>{
+  //   setPostDropdown(postId)
+  // }
 
   return (
     <div className="flex justify-between">
@@ -92,25 +98,33 @@ const PostCardProfileSection = ({
       </div>
       {post?.author?._id === findUser?.id && findUser?.role === "user" && (
         <div>
-          <div className="dropdown dropdown-end">
+          <div className="relative">
             <button
-              tabIndex={0}
-              role="button"
+              onClick={() => setPostDropdown(!postDropdown)}
               className="text-lg p-0 h-8 w-8 rounded-[50%] flex justify-center items-center transition-all duration-300 hover:bg-gray-100"
             >
               <HiDotsHorizontal />
             </button>
             <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+              className={`absolute top-8 right-0 bg-gray-50 rounded-md z-[1] w-52 p-2 shadow-lg ${
+                postDropdown ? "flex flex-col gap-1" : "hidden"
+              }`}
             >
-              <li>
-                <button onClick={() => handlePostDelete(post?._id)}>
+              <li onClick={() => setPostDropdown(false)}>
+                <button
+                  onClick={() => handlePostDelete(post?._id)}
+                  className="block text-sm py-1 px-2 rounded-md w-full text-start transition-all duration-300 hover:bg-gray-200"
+                >
                   Delete
                 </button>
               </li>
               <li>
-                <Link href={`/posts/edit/${post?._id}`}>Edit</Link>
+                <Link
+                  href={`/posts/edit/${post?._id}`}
+                  className="block text-sm py-1 px-2 rounded-md w-full text-start transition-all duration-300 hover:bg-gray-200"
+                >
+                  Edit
+                </Link>
               </li>
             </ul>
           </div>

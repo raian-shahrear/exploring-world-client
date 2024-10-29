@@ -190,7 +190,7 @@ const Register = () => {
             </div>
             <button
               type="submit"
-              className="btn btn-neutral btn-sm w-fit h-fit text-sm py-2 px-4 rounded flex items-center gap-1"
+              className="bg-gray-900 text-white w-fit h-fit text-sm py-2 px-4 rounded flex items-center gap-1"
             >
               Sign Up
             </button>

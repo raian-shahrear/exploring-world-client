@@ -27,7 +27,7 @@ const PostSmallCard = ({
   return (
     <>
       <div
-        className={`card card-compact bg-base-100 shadow-xl ${
+        className={`bg-gray-50 shadow-xl rounded-lg overflow-hidden ${
           posts.length === 1 ? "w-8/12 mx-auto" : "w-full"
         }`}
       >
@@ -64,9 +64,9 @@ const PostSmallCard = ({
             )}
           </div>
         </figure>
-        <div className="card-body">
-          <p className="card-title text-base">{post?.title}</p>
-          <p className="text-xs font-semibold text-gray-500 mt-[-10px]">
+        <div className="py-3 px-4">
+          <p className="text-lg font-semibold">{post?.title}</p>
+          <p className="text-xs font-semibold text-gray-500 mb-4">
             <span className="text-xs font-medium flex items-center gap-1">
               <BiCategory /> {post?.category?.title}
             </span>
@@ -74,7 +74,7 @@ const PostSmallCard = ({
               <IoTimeOutline /> {formatPostDate(post.createdAt)}
             </span>
           </p>
-          <p className="mb-4">
+          <p className="mb-4 text-sm">
             {post?.travelStory?.length > 200
               ? post?.travelStory?.slice(0, 199) + "..."
               : post?.travelStory}
@@ -82,7 +82,7 @@ const PostSmallCard = ({
           <div className="flex items-center justify-between">
             <Link
               href={`/posts/${post?._id}`}
-              className="w-fit text-blue-500 font-semibold flex items-center gap-1 duration-300 transition-all hover:gap-2"
+              className="w-fit text-blue-500 text-sm font-semibold flex items-center gap-1 duration-300 transition-all hover:gap-2"
             >
               <span>See Details</span>
               <span>

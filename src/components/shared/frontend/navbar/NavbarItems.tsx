@@ -12,7 +12,7 @@ const NavbarItems = () => {
       <li>
         <Link
           href="/"
-          className={`me-1 hover:text-gray-900 ${
+          className={`me-1 font-medium text-sm p-2 rounded-lg transition-all duration-300 hover:text-gray-900 hover:bg-gray-200 ${
             pathname === "/" ? "text-gray-900  bg-gray-200" : "text-gray-500"
           }`}
         >
@@ -22,7 +22,7 @@ const NavbarItems = () => {
       <li>
         <Link
           href="/news-feed"
-          className={`me-1 hover:text-gray-900 ${
+          className={`me-1 font-medium text-sm p-2 rounded-lg transition-all duration-300 hover:text-gray-900 hover:bg-gray-200 ${
             pathname === "/news-feed"
               ? "text-gray-900  bg-gray-200"
               : "text-gray-500"
@@ -35,7 +35,7 @@ const NavbarItems = () => {
         <li>
           <Link
             href="/profile/my-posts"
-            className={`me-1 hover:text-gray-900 ${
+            className={`me-1 font-medium text-sm p-2 rounded-lg transition-all duration-300 hover:text-gray-900 hover:bg-gray-200 ${
               pathname === "/profile/my-posts"
                 ? "text-gray-900  bg-gray-200"
                 : "text-gray-500"
@@ -48,7 +48,7 @@ const NavbarItems = () => {
       <li>
         <Link
           href="/about-us"
-          className={`me-1 hover:text-gray-900 ${
+          className={`me-1 font-medium text-sm p-2 rounded-lg transition-all duration-300 hover:text-gray-900 hover:bg-gray-200 ${
             pathname === "/about-us"
               ? "text-gray-900  bg-gray-200"
               : "text-gray-500"
@@ -60,7 +60,7 @@ const NavbarItems = () => {
       <li>
         <Link
           href="/contact-us"
-          className={`me-1 hover:text-gray-900 ${
+          className={`me-1 font-medium text-sm p-2 rounded-lg transition-all duration-300 hover:text-gray-900 hover:bg-gray-200 ${
             pathname === "/contact-us"
               ? "text-gray-900  bg-gray-200"
               : "text-gray-500"

@@ -64,7 +64,7 @@ const PostCard = ({ controlCategoryTab, userLoading, findUser }: TProps) => {
                 handleDeletePost={handleDeletePost}
               />
               <PostCardGallery post={post} />
-              <PostCardDescription post={post} findUser={findUser} />
+              <PostCardDescription post={post} />
               <PostCardCommentSection
                 findUser={findUser}
                 post={post}

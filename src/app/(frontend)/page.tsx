@@ -1,9 +1,9 @@
 "use client";
-import CreatePost from "@/components/ui/home/CreatePost";
-import PostCard from "@/components/ui/home/postCard/PostCard";
-import PostCategory from "@/components/ui/home/PostCategory";
-import SidebarFollow from "@/components/ui/home/SidebarFollow";
-import SidebarProfile from "@/components/ui/home/SidebarProfile";
+import CreatePost from "@/components/modules/home/CreatePost";
+import PostCard from "@/components/modules/home/postCard/PostCard";
+import PostCategory from "@/components/modules/home/PostCategory";
+import SidebarFollow from "@/components/modules/home/SidebarFollow";
+import SidebarProfile from "@/components/modules/home/SidebarProfile";
 import { useUser } from "@/context/user.provider";
 import React, { useState } from "react";
 
@@ -17,7 +17,7 @@ const HomePage = () => {
       className={`grid ${
         findUser
           ? "grid-cols-1 md:grid-cols-[200px_auto] lg:grid-cols-[250px_auto_250px]"
-          : "grid-cols-1"
+          : "grid-cols-1 xl:w-8/12 mx-auto"
       } gap-6 relative`}
     >
       {findUser && (

@@ -200,7 +200,7 @@ const PostCreate = () => {
               Travel Story<span className="text-red-600">*</span>
             </label>
             <textarea
-              className="border border-gray-300 py-1 px-2 rounded-lg w-full text-sm"
+              className="border border-gray-300 py-1 px-2 rounded-lg w-full text-sm min-h-24"
               placeholder="Travel story..."
               {...register("travelStory", { required: true })}
             ></textarea>

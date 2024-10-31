@@ -1,9 +1,5 @@
 "use client";
-import PostCardCommentSection from "@/components/ui/home/postCard/PostCardCommentSection";
-import PostCardGallery from "@/components/ui/home/postCard/PostCardGallery";
-import PostCardLoading from "@/components/ui/home/postCard/PostCardLoading";
-import PostCardProfileSection from "@/components/ui/home/postCard/PostCardProfileSection";
-import PostDetails from "@/components/ui/postDetails/PostDetails";
+import PostDetails from "@/components/modules/postDetails/PostDetails";
 import { useUser } from "@/context/user.provider";
 import {
   useDeletePost,
@@ -16,6 +12,10 @@ import React, { useEffect } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { TDisplayPost } from "@/types";
+import PostCardLoading from "@/components/modules/home/postCard/PostCardLoading";
+import PostCardProfileSection from "@/components/modules/home/postCard/PostCardProfileSection";
+import PostCardGallery from "@/components/modules/home/postCard/PostCardGallery";
+import PostCardCommentSection from "@/components/modules/home/postCard/PostCardCommentSection";
 
 const PostSinglePage = ({ params }: { params: { postId: string } }) => {
   const router = useRouter();
@@ -70,11 +70,11 @@ const PostSinglePage = ({ params }: { params: { postId: string } }) => {
   };
 
   return (
-    <>
+    <div className="xl:w-8/12 mx-auto">
       {getSinglePostLoading || userLoading ? (
         <PostCardLoading />
       ) : (
-        <div className="border rounded-lg p-6 xl:w-8/12 mx-auto">
+        <div className="border rounded-lg p-6">
           <PostCardProfileSection
             post={postSingleData?.data}
             findUser={findUser}
@@ -96,7 +96,7 @@ const PostSinglePage = ({ params }: { params: { postId: string } }) => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

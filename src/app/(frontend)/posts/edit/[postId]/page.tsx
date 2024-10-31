@@ -223,7 +223,7 @@ const EditPostById = ({ params }: { params: any }) => {
           <div className="flex flex-col gap-1 mb-4">
             <label className="text-sm font-semibold">Travel Story</label>
             <textarea
-              className="textarea textarea-bordered w-full text-base"
+              className="border border-gray-300 py-1 px-2 rounded-lg w-full text-sm min-h-24"
               placeholder="Travel story..."
               {...register("travelStory")}
             ></textarea>

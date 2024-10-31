@@ -15,7 +15,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import CommonLoader from "../../loading/CommonLoader";
+import CommonLoader from "@/components/ui/loading/CommonLoader";
 
 type TProps = {
   comment: TDisplayComment;

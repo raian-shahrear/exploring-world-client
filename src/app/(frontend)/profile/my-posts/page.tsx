@@ -1,5 +1,4 @@
 "use client";
-import CreatePost from "@/components/ui/home/CreatePost";
 import PostSmallCard from "@/components/ui/postSmallCard/PostSmallCard";
 import { useUser } from "@/context/user.provider";
 import { useGetAllUser } from "@/hooks/auth.hook";
@@ -10,6 +9,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { IoWarningOutline } from "react-icons/io5";
 import { Skeleton } from "@/components/ui/skeleton";
 import Pagination from "@/components/ui/pagination/Pagination";
+import CreatePost from "@/components/modules/home/CreatePost";
 
 const MyPosts = () => {
   const [dataLimit, setDataLimit] = useState(4);

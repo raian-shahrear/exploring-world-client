@@ -97,25 +97,27 @@ const SidebarItems = () => {
                 <span className="text-lg">
                   <FaUserCheck />
                 </span>
-                <span>Follow Users</span>
+                <span>Following Profiles</span>
               </Link>
             </li>
           )}
-          <li>
-            <Link
-              href="/dashboard/users"
-              className={`flex items-center gap-2 w-full text-sm font-medium tracking-wide px-4 py-2 rounded-[40px] transition-all duration-300 hover:bg-gray-200 hover:text-gray-900 ${
-                pathname === "/dashboard/users"
-                  ? "text-gray-900  bg-gray-200"
-                  : "text-gray-500"
-              }`}
-            >
-              <span className="text-lg">
-                <FaUsers />
-              </span>
-              <span>Manage Users</span>
-            </Link>
-          </li>
+          {user?.role === "admin" && (
+            <li>
+              <Link
+                href="/dashboard/users"
+                className={`flex items-center gap-2 w-full text-sm font-medium tracking-wide px-4 py-2 rounded-[40px] transition-all duration-300 hover:bg-gray-200 hover:text-gray-900 ${
+                  pathname === "/dashboard/users"
+                    ? "text-gray-900  bg-gray-200"
+                    : "text-gray-500"
+                }`}
+              >
+                <span className="text-lg">
+                  <FaUsers />
+                </span>
+                <span>Manage Users</span>
+              </Link>
+            </li>
+          )}
           <li>
             <Link
               href="/dashboard/my-profile"

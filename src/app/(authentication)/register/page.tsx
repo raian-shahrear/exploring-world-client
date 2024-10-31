@@ -10,7 +10,11 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { toast } from "sonner";
 
 const Register = () => {
-  const { mutate: handleRegistration, isPending } = useRegistration();
+  const {
+    mutate: handleRegistration,
+    isPending,
+    data: registerData,
+  } = useRegistration();
   const [showPass, setShowPass] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -51,7 +55,12 @@ const Register = () => {
         router.push("/");
       }
     }
-  }, [isPending, pathname, router]);
+
+    if (registerData?.success) {
+      router.push("/login");
+    }
+  }, [isPending, pathname, router, registerData]);
+
   if (isPending) {
     return (
       <div className="absolute top-2/4 left-2/4">

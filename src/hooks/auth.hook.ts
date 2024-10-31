@@ -44,6 +44,7 @@ export const useGetAllUser = () => {
     queryFn: async () => await getAllUsers(),
   });
 };
+
 export const useGetAllUserName = () => {
   return useQuery({
     queryKey: ["GET_USER_NAME"],

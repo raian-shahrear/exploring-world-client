@@ -6,6 +6,7 @@ import Link from "next/link";
 import userAvatar from "@/assets/icons/user-avatar-black.png";
 import Image from "next/image";
 import { useUser } from "@/context/user.provider";
+import DotsLoader from "@/components/ui/loading/DotsLoader";
 
 const DashboardNavbar = ({
   setControlSidebar,
@@ -34,7 +35,7 @@ const DashboardNavbar = ({
         </span>
       </div>
       {userLoading ? (
-        <span className="loading loading-dots loading-md"></span>
+        <DotsLoader />
       ) : (
         <div className="flex items-center gap-10">
           <Link

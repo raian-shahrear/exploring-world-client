@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoWarningOutline } from "react-icons/io5";
@@ -10,6 +8,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { IoMdArrowDropdown, IoMdArrowDropup, IoMdClose } from "react-icons/io";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type TProps = {
   userLoading: boolean;
@@ -45,7 +44,7 @@ const SidebarProfile = ({ userLoading, findUser }: TProps) => {
   return (
     <>
       {userLoading ? (
-        <div className="skeleton h-fit lg:h-[85vh] rounded-lg p-6 md:sticky top-[100px] shadow-lg"></div>
+        <Skeleton className="h-fit lg:h-[85vh] rounded-lg p-6 md:sticky top-[100px] shadow-lg" />
       ) : (
         <div className="h-fit lg:h-[85vh] bg-gray-50 rounded-lg p-6 md:sticky top-[100px] shadow-lg">
           <div className="flex md:block gap-6 md:gap-0">

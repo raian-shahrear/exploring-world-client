@@ -1,4 +1,5 @@
 "use client";
+import RingLoader from "@/components/ui/loading/RingLoader";
 import PostSmallCard from "@/components/ui/postSmallCard/PostSmallCard";
 import { useUser } from "@/context/user.provider";
 import { useGetAllUserName } from "@/hooks/auth.hook";
@@ -238,7 +239,7 @@ const NewsFeed = () => {
       </div>
       {postLoading && (
         <div className="mt-10 flex justify-center">
-          <span className="loading loading-ring loading-lg"></span>
+          <RingLoader />
         </div>
       )}
     </div>

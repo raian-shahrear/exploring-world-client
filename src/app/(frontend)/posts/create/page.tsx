@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import JoditEditor from "jodit-react";
 import Image from "next/image";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -10,6 +8,10 @@ import { useRouter } from "next/navigation";
 import { useCreatePost } from "@/hooks/post.hook";
 import { useGetCategories } from "@/hooks/category.hook";
 import { TPost, TPostCategory } from "@/types";
+import CommonLoader from "@/components/ui/loading/CommonLoader";
+import dynamic from "next/dynamic";
+
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const PostCreate = () => {
   const router = useRouter();
@@ -106,7 +108,7 @@ const PostCreate = () => {
   if (createPostPending) {
     return (
       <div className="absolute top-2/4 left-2/4">
-        <span className="loading loading-infinity w-20"></span>
+        <CommonLoader />
       </div>
     );
   }
@@ -243,7 +245,10 @@ const PostCreate = () => {
           </div>
 
           <div className="flex justify-center items-center">
-            <button type="submit" className="bg-gray-900 text-white py-2 px-3 rounded-md">
+            <button
+              type="submit"
+              className="bg-gray-900 text-white py-2 px-3 rounded-md"
+            >
               Submit
             </button>
           </div>

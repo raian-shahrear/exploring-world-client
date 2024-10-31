@@ -1,16 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import CommonLoader from "@/components/ui/loading/CommonLoader";
 import { useGetCategories } from "@/hooks/category.hook";
 import { useGetSinglePost, useUpdatePost } from "@/hooks/post.hook";
 import { TPost, TPostCategory } from "@/types";
 import { getImageUrl } from "@/utils/getImageUrl";
-import JoditEditor from "jodit-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "sonner";
+import dynamic from "next/dynamic";
+
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const EditPostById = ({ params }: { params: any }) => {
   const router = useRouter();
@@ -138,14 +140,14 @@ const EditPostById = ({ params }: { params: any }) => {
   if (updatePostPending) {
     return (
       <div className="absolute top-2/4 left-2/4">
-        <span className="loading loading-infinity w-20"></span>
+        <CommonLoader />
       </div>
     );
   }
   if (getSinglePostLoading) {
     return (
       <div className="absolute top-2/4 left-2/4">
-        <span className="loading loading-infinity w-20"></span>
+        <CommonLoader />
       </div>
     );
   }
@@ -261,7 +263,10 @@ const EditPostById = ({ params }: { params: any }) => {
           </div>
 
           <div className="flex justify-center items-center">
-            <button type="submit" className="bg-gray-900 text-white py-2 px-3 rounded-md">
+            <button
+              type="submit"
+              className="bg-gray-900 text-white py-2 px-3 rounded-md"
+            >
               Update
             </button>
           </div>

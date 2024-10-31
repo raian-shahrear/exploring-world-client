@@ -2,10 +2,11 @@
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
-import { TLoggedInUser} from "@/types";
+import { TLoggedInUser } from "@/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type TProps = {
-  userLoading: boolean;
+  userLoading?: boolean;
   findUser: TLoggedInUser;
 };
 
@@ -15,8 +16,8 @@ const CreatePost = ({ userLoading, findUser }: TProps) => {
       {userLoading ? (
         <div className="border rounded-lg p-6">
           <div className="grid grid-cols-[40px_auto] items-center gap-4">
-            <div className="skeleton rounded-full border w-10 h-10"></div>
-            <div className="skeleton h-10 px-4 w-full border"></div>
+            <Skeleton className="rounded-full border w-9 h-9" />
+            <Skeleton className="h-10 px-4 w-full border" />
           </div>
         </div>
       ) : (

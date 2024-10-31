@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import PostCardCommentSection from "@/components/ui/home/postCard/PostCardCommentSection";
 import PostCardGallery from "@/components/ui/home/postCard/PostCardGallery";

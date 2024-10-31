@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import CommonLoader from "@/components/ui/loading/CommonLoader";
 import { useUser } from "@/context/user.provider";
 import { useLogin } from "@/hooks/auth.hook";
 import Link from "next/link";
@@ -57,7 +57,7 @@ const Login = () => {
   if (isPending) {
     return (
       <div className="absolute top-2/4 left-2/4">
-        <span className="loading loading-infinity w-20"></span>
+        <CommonLoader />
       </div>
     );
   }

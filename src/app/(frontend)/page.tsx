@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import CreatePost from "@/components/ui/home/CreatePost";
 import PostCard from "@/components/ui/home/postCard/PostCard";
@@ -9,7 +8,7 @@ import { useUser } from "@/context/user.provider";
 import React, { useState } from "react";
 
 const HomePage = () => {
-  const { user: findUser, isLoading: userLoading} = useUser();
+  const { user: findUser, isLoading: userLoading } = useUser();
   const [controlCategoryTab, setControlCategoryTab] = useState<
     string | string[]
   >("0");

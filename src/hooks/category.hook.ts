@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createCategory, getCategories } from "@/actions/CategoryActions";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";

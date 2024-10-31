@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Image from "next/image";
 import Link from "next/link";
 import { TLoggedInUser, TUser } from "@/types";
 import { useGetAllUser, useUnfollowUser } from "@/hooks/auth.hook";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type TProps = {
   userLoading: boolean;
@@ -26,7 +26,7 @@ const SidebarFollow = ({ userLoading, findUser }: TProps) => {
   return (
     <>
       {userLoading ? (
-        <div className="skeleton h-fit lg:h-[85vh] rounded-lg p-6 md:sticky top-[100px] shadow-lg"></div>
+        <Skeleton className="h-fit lg:h-[85vh] rounded-lg p-6 md:sticky top-[100px] shadow-lg" />
       ) : (
         <div className="bg-gray-50 h-[85vh] rounded-lg p-6 shadow-lg sticky top-[100px] overflow-auto hidden lg:block">
           <div>

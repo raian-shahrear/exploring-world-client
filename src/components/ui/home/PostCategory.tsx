@@ -1,7 +1,8 @@
 "use client";
 import { useGetCategories } from "@/hooks/category.hook";
 import { TPostCategory } from "@/types";
-import React, { Dispatch } from "react";
+import { Dispatch } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type TProps = {
   controlCategoryTab: string | string[];
@@ -32,8 +33,8 @@ const PostCategory = ({
     <>
       {categoryLoading ? (
         <div>
-          <div className="skeleton w-20 h-4 mb-2"></div>
-          <div className="skeleton mt-1 py-1 px-2 w-full h-4"></div>
+          <Skeleton className="w-20 h-4 mb-2" />
+          <Skeleton className="mt-1 py-1 px-2 w-full h-4" />
         </div>
       ) : (
         <div className="">

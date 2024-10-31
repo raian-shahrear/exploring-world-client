@@ -1,5 +1,6 @@
 "use client";
 import { logoutUser } from "@/actions/AuthActions";
+import DotsLoader from "@/components/ui/loading/DotsLoader";
 import { protectedRoutes } from "@/constant";
 import { useUser } from "@/context/user.provider";
 import Link from "next/link";
@@ -30,7 +31,7 @@ const SidebarItems = () => {
     <>
       {userLoading ? (
         <div className="flex justify-center items-center h-[65vh]">
-          <span className="loading loading-dots loading-lg"></span>
+          <DotsLoader />
         </div>
       ) : (
         <ul className="flex flex-col gap-2">

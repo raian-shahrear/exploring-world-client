@@ -16,6 +16,7 @@ import {
   useGetAllComments,
 } from "@/hooks/comment.hook";
 import { formatPostDate } from "@/utils/postDate";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type TProps = {
   findUser: TLoggedInUser | null;
@@ -126,8 +127,8 @@ const PostCardCommentSection = ({
           <>
             {createCommentPending ? (
               <div className="grid grid-cols-[36px_auto] items-start gap-2">
-                <div className="skeleton rounded-full w-9 h-9"></div>
-                <div className="skeleton w-full rounded-md h-16"></div>
+                <Skeleton className="rounded-full w-9 h-9" />
+                <Skeleton className="w-full rounded-md h-16" />
               </div>
             ) : (
               <div className="grid grid-cols-[36px_auto] items-start gap-2">
@@ -205,7 +206,7 @@ const PostCardCommentSection = ({
               {findUser?.id === comment?.user?._id &&
                 findUser?.role === "user" && (
                   <div className="flex items-center gap-1">
-                    <PostEditCommentModal id={comment?._id} comment={comment} />
+                    <PostEditCommentModal comment={comment} />
                     <button onClick={() => handleCommentDelete(comment?._id)}>
                       <RiDeleteBin6Line />
                     </button>

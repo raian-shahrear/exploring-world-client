@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export const buildQueryParams = (params: Record<string, any>) => {
   const query = new URLSearchParams();
 

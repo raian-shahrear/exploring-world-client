@@ -4,6 +4,7 @@ import Link from "next/link";
 import NavbarUserDropdown from "./NavbarUserDropdown";
 import { useUser } from "@/context/user.provider";
 import NavbarItems from "./NavbarItems";
+import DotsLoader from "@/components/ui/loading/DotsLoader";
 
 const FrontendNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,7 +30,7 @@ const FrontendNavbar = () => {
           <ul className="hidden lg:block">
             <li className="flex items-center gap-2 relative">
               {userLoading ? (
-                <span className="loading loading-dots loading-md"></span>
+                <DotsLoader />
               ) : (
                 <>
                   {user?.userEmail ? (
@@ -62,7 +63,7 @@ const FrontendNavbar = () => {
               <ul>
                 <li className="flex items-center gap-2 relative">
                   {userLoading ? (
-                    <span className="loading loading-dots loading-md"></span>
+                    <DotsLoader />
                   ) : (
                     <>
                       {user?.userEmail ? (

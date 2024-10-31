@@ -1,19 +1,22 @@
-"use client";
+import ContactUsText from "./_component/ContactUsText";
+import ContactUsForm from "./_component/ContactUsForm";
 
 const ContactUs = () => {
   return (
     <div>
-      <div>
-        We’d love to hear from you! Whether you have questions, feedback, or
-        just want to share your experience with us, our team is here to help.
-        Your thoughts and suggestions are invaluable in helping us make our
-        platform even better for travelers everywhere. Email Us: Reach out
-        anytime at [Your Email Address]. We aim to respond promptly to all
-        inquiries. Connect on Social Media: Stay updated and connect with our
-        travel community on [List Social Media Platforms], where we share
-        inspiring stories, travel tips, and platform updates. We’re here to
-        support you on your journey—get in touch, and let’s keep exploring
-        together!
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-20 lg:items-center">
+        <ContactUsText />
+        <ContactUsForm />
+      </div>
+      <div className="mt-10">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1260.7511182722742!2d-1.0770857999999999!3d50.80333279999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48745d08b8a8a04d%3A0xa2b63f20bfe78df6!2sFratton%20Rd%2C%20Fratton%2C%20Portsmouth%20PO1%205HA%2C%20UK!5e0!3m2!1sen!2sbd!4v1730312533604!5m2!1sen!2sbd"
+          width="100%"
+          height="450"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          className="shadow-xl rounded-md"
+        ></iframe>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { TDisplayPost } from "@/types";
 import Link from "next/link";

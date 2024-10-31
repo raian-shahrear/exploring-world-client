@@ -1,5 +1,4 @@
 "use client";
-/* eslint-disable @next/next/no-img-element */
 // lightgallery
 import LightGallery from "lightgallery/react";
 import "lightgallery/css/lightgallery.css";

@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import CommonLoader from "@/components/ui/loading/CommonLoader";
 import { useRegistration } from "@/hooks/auth.hook";
 import { getImageUrl } from "@/utils/getImageUrl";
 import Link from "next/link";
@@ -51,11 +51,11 @@ const Register = () => {
         router.push("/");
       }
     }
-  }, [isPending]);
+  }, [isPending, pathname, router]);
   if (isPending) {
     return (
       <div className="absolute top-2/4 left-2/4">
-        <span className="loading loading-infinity w-20"></span>
+        <CommonLoader />
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./loader.css";
 import Providers from "@/lib/Providers";
 
 export const metadata = {

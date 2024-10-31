@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import { TDisplayPost, TLoggedInUser } from "@/types";
 import { formatPostDate } from "@/utils/postDate";

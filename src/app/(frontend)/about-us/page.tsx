@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
 import aboutUSBanner from "@/assets/about-us/about-us-banner.jpg";
 import Image from "next/image";
 import { BiSolidLabel } from "react-icons/bi";
 import { GoGoal } from "react-icons/go";
+import { RiTeamFill } from "react-icons/ri";
+import { ourTeam } from "./_constant/aboutUs.const";
 
 const AboutUs = () => {
   return (
@@ -14,6 +14,7 @@ const AboutUs = () => {
           alt="banner"
           width={500}
           height={500}
+          unoptimized
           className="w-full h-[600px] object-cover rounded-xl"
         />
       </div>
@@ -36,7 +37,9 @@ const AboutUs = () => {
         </p>
       </div>
       <div className="mt-10">
-        <h2 className="text-xl font-semibold flex items-center gap-1"><GoGoal /> Our Mission</h2>
+        <h2 className="text-xl font-semibold flex items-center gap-1">
+          <GoGoal /> Our Mission
+        </h2>
         <p className="text-sm mt-4">
           Our mission is to connect and inspire a global community of travelers
           by creating a space where stories, experiences, and insights can be
@@ -51,6 +54,41 @@ const AboutUs = () => {
           community where anyone, from first-time adventurers to seasoned
           explorers, can find inspiration and guidance for their next journey.
         </p>
+      </div>
+      <div className="mt-10">
+        <h2 className="text-xl font-semibold flex items-center gap-1">
+          <RiTeamFill /> Meet People
+        </h2>
+        <p className="text-sm mt-4">
+          Meet our team of passionate travel enthusiasts and dedicated tech
+          experts! Together, we work around the clock to ensure a safe, smooth,
+          and inspiring experience on our platform. From fixing bugs and
+          moderating posts to enhancing user interactions, our mission is to
+          create a vibrant, positive space for sharing global travel adventures.
+        </p>
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+          {ourTeam?.map((team) => (
+            <div key={team?._id} className="shadow-lg rounded-md">
+              <div>
+                <Image
+                  src={team?.img}
+                  alt="team"
+                  width={100}
+                  height={100}
+                  unoptimized
+                  className="w-full h-96 sm:h-64 object-top object-cover rounded-tl-md rounded-tr-md"
+                />
+              </div>
+              <div className="p-3">
+                <p className="font-bold text-gray-900">{team?.name}</p>
+                <p className="font-semibold text-sm text-gray-500 mb-2">
+                  {team?.designation}
+                </p>
+                <p className="text-sm text-gray-900">{team?.bio}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

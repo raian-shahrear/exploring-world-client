@@ -37,8 +37,9 @@ const PostDetails = ({ post, findUser, onDownload }: TProps) => {
             <span>{post?.travelStory}</span>
           </p>
         </div>
-        {(findUser?.id === post?.author?._id ||
-          findUser?.isVerified === "verified") && (
+        {findUser?.id === post?.author?._id ||
+        findUser?.isVerified === "verified" ||
+        findUser?.role === "admin" ? (
           <div>
             <div className="mt-3">
               <p className="text-sm flex flex-col gap-[2px] jodit-editor-style">
@@ -72,6 +73,12 @@ const PostDetails = ({ post, findUser, onDownload }: TProps) => {
                 )}
               </p>
             </div>
+          </div>
+        ) : (
+          <div className="mt-3">
+            <p className="text-base md:text-xl text-gray-300 font-medium">
+              Only verified users can access the rest of this premium content.
+            </p>
           </div>
         )}
       </div>

@@ -1,19 +1,23 @@
 "use server";
 import axiosInstance from "@/lib/AxiosInstance";
+import { TFilterProps, TUser } from "@/types";
+import { buildQueryParams } from "@/utils/buildQueryParams";
 import { jwtDecode } from "jwt-decode";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
+// register/create user
 export const registerUser = async (userData: FieldValues) => {
   try {
     const { data } = await axiosInstance.post("/auth/signup", userData);
     return data;
   } catch (error: any) {
-    throw new Error(error?.message);
+    throw new Error(error?.response?.data?.message);
   }
 };
 
+// login user
 export const loginUser = async (userData: FieldValues) => {
   try {
     const { data } = await axiosInstance.post("/auth/login", userData);
@@ -23,15 +27,17 @@ export const loginUser = async (userData: FieldValues) => {
     }
     return data;
   } catch (error: any) {
-    throw new Error(error?.message);
+    throw new Error(error?.response?.data?.message);
   }
 };
 
+// logout user
 export const logoutUser = () => {
   cookies().delete("accessToken");
   cookies().delete("refreshToken");
 };
 
+// get current loggedIn user
 export const getCurrentUser = async () => {
   const accessToken = cookies().get("accessToken")?.value;
   let decodedToken = null;
@@ -42,25 +48,29 @@ export const getCurrentUser = async () => {
   return decodedToken;
 };
 
-export const getAllUsers = async () => {
+// get all users
+export const getAllUsers = async (params: TFilterProps) => {
+  const queryString = buildQueryParams(params);
   try {
-    const { data } = await axiosInstance.get(`/auth/users`);
+    const { data } = await axiosInstance.get(`/auth/users?${queryString}`);
     revalidateTag("user");
     return data;
   } catch (error: any) {
-    throw new Error(error.message);
+    throw new Error(error?.response?.data?.message);
   }
 };
 
+// get all user's name for options
 export const getAllUsersName = async () => {
   try {
     const { data } = await axiosInstance.get(`/auth/users-name`);
     return data;
   } catch (error: any) {
-    throw new Error(error.message);
+    throw new Error(error?.response?.data?.message);
   }
 };
 
+// get accessToken from refreshToken
 export const getNewAccessToken = async () => {
   const currentTime = new Date().getTime() / 1000;
   try {
@@ -83,13 +93,11 @@ export const getNewAccessToken = async () => {
 
     return res.data;
   } catch (error: any) {
-    throw new Error(
-      error?.message ? error?.message : "Failed to get new access token"
-    );
+    throw new Error(error?.response?.data?.message);
   }
 };
 
-// follow/unfollow user
+// follow user
 export const followUser = async (userData: FieldValues): Promise<any> => {
   try {
     const { data } = await axiosInstance.patch(`/auth/follow`, userData);
@@ -101,25 +109,98 @@ export const followUser = async (userData: FieldValues): Promise<any> => {
     cookies().set("accessToken", accessToken);
     const decodedUser = await jwtDecode(accessToken);
 
-    return { data, decodedUser }
+    return { data, decodedUser };
   } catch (error: any) {
-    throw new Error(error?.message ? error?.message : "Failed to update user");
+    throw new Error(error?.response?.data?.message);
   }
 };
 
+// unfollow user
 export const unfollowUser = async (userData: FieldValues): Promise<any> => {
   try {
     const { data } = await axiosInstance.patch(`/auth/unfollow`, userData);
     revalidateTag("user");
-    
+
     // Get new access token
     const res = await getNewAccessToken();
     const accessToken = res.data.accessToken;
     cookies().set("accessToken", accessToken);
     const decodedUser = await jwtDecode(accessToken);
 
-    return { data, decodedUser }
+    return { data, decodedUser };
   } catch (error: any) {
-    throw new Error(error?.message ? error?.message : "Failed to update user");
+    throw new Error(error?.response?.data?.message);
+  }
+};
+
+// update user
+export const updateUser = async (
+  userId: string,
+  formData: Partial<TUser>
+): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/auth/users/${userId}`,
+      formData
+    );
+    revalidateTag("user");
+
+    // Get new access token
+    const res = await getNewAccessToken();
+    const accessToken = res.data.accessToken;
+    cookies().set("accessToken", accessToken);
+    const decodedUser = await jwtDecode(accessToken);
+
+    return { data, decodedUser };
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message);
+  }
+};
+
+// update user email
+export const updateUserEmail = async (
+  userId: string,
+  formData: Partial<TUser>
+): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/auth/user-email/${userId}`,
+      formData
+    );
+    revalidateTag("user");
+    return data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message);
+  }
+};
+
+// update password
+export const updatePassword = async (formData: any): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.post(
+      `/auth/change-password`,
+      formData
+    );
+    revalidateTag("user");
+    return data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message);
+  }
+};
+
+// update user role
+export const updateUserRole = async (
+  userId: string,
+  formData: { role: string }
+): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/auth//user-role/${userId}`,
+      formData
+    );
+    revalidateTag("user");
+    return data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message);
   }
 };

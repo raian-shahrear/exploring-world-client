@@ -19,6 +19,7 @@ export type TLoggedInUser = {
 export type TPostCategory = {
   _id: string;
   title: string;
+  isDisabled: boolean;
   createdAt: string;
   updatedAt: string;
   __v: number;

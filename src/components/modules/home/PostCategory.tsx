@@ -39,7 +39,7 @@ const PostCategory = ({
       ) : (
         <div className="">
           <p className="text-sm font-bold">Post Category</p>
-          <div className="flex flex-wrap gap-1 mt-1">
+          <div className="flex flex-wrap gap-1 mt-2">
             <button
               onClick={() => setControlCategoryTab("0")}
               className={`text-xs text-white py-1 px-2 rounded-3xl ${

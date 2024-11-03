@@ -10,6 +10,7 @@ import { IoWarningOutline } from "react-icons/io5";
 import { Skeleton } from "@/components/ui/skeleton";
 import Pagination from "@/components/ui/pagination/Pagination";
 import CreatePost from "@/components/modules/home/CreatePost";
+import Link from "next/link";
 
 const MyPosts = () => {
   const [dataLimit, setDataLimit] = useState(4);
@@ -64,15 +65,18 @@ const MyPosts = () => {
             className="w-[150px] h-[150px] mx-auto object-cover object-top border rounded-md"
           />
           <div className="text-center mt-2">
-            <p>
+            <p className="flex justify-center">
               {loggedInUser?.isVerified === "verified" ? (
                 <span className="text-green-600 text-[11px] font-medium flex items-center gap-1 mb-3">
                   <FaCheckCircle /> Verified
                 </span>
               ) : loggedInUser?.isVerified === "pending" ? (
-                <button className="text-orange-600 text-[11px] font-medium flex items-center gap-1 border border-orange-600 rounded-md px-1 mx-auto mb-3">
+                <Link
+                  href="/"
+                  className="w-fit mb-3 text-orange-600 text-[11px] font-medium flex items-center gap-1 border border-orange-600 rounded-md px-1 transition-all duration-300 hover:bg-gray-900 hover:border-gray-900 hover:text-white"
+                >
                   <IoWarningOutline /> Verify account
-                </button>
+                </Link>
               ) : (
                 <span className="text-gray-500 text-[11px] font-medium flex justify-center items-center gap-1 mb-3">
                   <IoWarningOutline /> Not Verified

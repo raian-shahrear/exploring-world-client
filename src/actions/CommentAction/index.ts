@@ -2,7 +2,8 @@
 
 import envConfig from "@/config";
 import axiosInstance from "@/lib/AxiosInstance";
-import { TComment } from "@/types";
+import { TComment, TFilterProps } from "@/types";
+import { buildQueryParams } from "@/utils/buildQueryParams";
 import { revalidateTag } from "next/cache";
 
 // create comment
@@ -12,14 +13,13 @@ export const createComment = async (formData: TComment): Promise<any> => {
     revalidateTag("comment");
     return data;
   } catch (error: any) {
-    throw new Error(
-      error?.message ? error?.message : "Failed to create comment"
-    );
+    throw new Error(error?.response?.data?.message);
   }
 };
 
 // get comments by post
-export const getAllComments = async (postId: string) => {
+export const getAllComments = async (postId: string, params: TFilterProps) => {
+  const queryString = buildQueryParams(params);
   const fetchOption = {
     next: {
       tags: ["comment"],
@@ -27,9 +27,9 @@ export const getAllComments = async (postId: string) => {
     },
   };
 
-  if(postId){
+  if (postId) {
     const res = await fetch(
-      `${envConfig.API_URL}/comments/${postId}`,
+      `${envConfig.API_URL}/comments/${postId}?${queryString}`,
       fetchOption
     );
     return res.json();
@@ -43,9 +43,7 @@ export const deleteComment = async (commentId: string): Promise<any> => {
     revalidateTag("comment");
     return data;
   } catch (error: any) {
-    throw new Error(
-      error?.message ? error?.message : "Failed to delete comment"
-    );
+    throw new Error(error?.response?.data?.message);
   }
 };
 
@@ -62,8 +60,6 @@ export const updateComment = async (
     revalidateTag("comment");
     return data;
   } catch (error: any) {
-    throw new Error(
-      error?.message ? error?.message : "Failed to update comment"
-    );
+    throw new Error(error?.response?.data?.message);
   }
 };

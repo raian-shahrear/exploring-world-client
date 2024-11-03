@@ -49,10 +49,6 @@ const PostCardProfileSection = ({
     handleUnfollow(user);
   };
 
-  // const handlePostActionDropdown = (postId: string) =>{
-  //   setPostDropdown(postId)
-  // }
-
   return (
     <div className="flex justify-between">
       <div className="grid grid-cols-[36px_auto] items-center gap-2">

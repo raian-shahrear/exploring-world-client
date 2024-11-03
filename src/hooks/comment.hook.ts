@@ -4,7 +4,7 @@ import {
   getAllComments,
   updateComment,
 } from "@/actions/CommentAction";
-import { TComment } from "@/types";
+import { TComment, TFilterProps } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -13,8 +13,8 @@ export const useCreateComment = () => {
   return useMutation<any, Error, TComment>({
     mutationKey: ["CREATE_COMMENT"],
     mutationFn: async (commentData) => await createComment(commentData),
-    onSuccess: () => {
-      toast.success("Comment created successfully");
+    onSuccess: (data) => {
+      toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["GET_COMMENT"] });
     },
     onError: (error) => {
@@ -23,10 +23,10 @@ export const useCreateComment = () => {
   });
 };
 
-export const useGetAllComments = (postId: string) => {
+export const useGetAllComments = (postId: string, params?: TFilterProps) => {
   return useQuery({
-    queryKey: ["GET_COMMENT", postId],
-    queryFn: () => getAllComments(postId),
+    queryKey: ["GET_COMMENT", postId, params],
+    queryFn: () => getAllComments(postId, params || {}),
     enabled: !!postId,
   });
 };
@@ -36,8 +36,8 @@ export const useDeleteComment = () => {
   return useMutation<any, Error, string>({
     mutationKey: ["DELETE_COMMENT"],
     mutationFn: async (commentId: string) => await deleteComment(commentId),
-    onSuccess: () => {
-      toast.success("Comment deleted successfully");
+    onSuccess: (data) => {
+      toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["GET_COMMENT"] });
     },
     onError: (error) => {
@@ -57,8 +57,8 @@ export const useUpdateComment = () => {
     mutationKey: ["UPDATE_COMMENT"],
     mutationFn: async ({ commentId, commentData }) =>
       await updateComment(commentId, commentData),
-    onSuccess: () => {
-      toast.success("Comment updated successfully");
+    onSuccess: (data) => {
+      toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["GET_COMMENT"] });
     },
     onError: (error) => {

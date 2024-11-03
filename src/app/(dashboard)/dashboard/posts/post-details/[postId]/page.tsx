@@ -1,52 +1,21 @@
 "use client";
-import PostDetails from "@/components/modules/postDetails/PostDetails";
-import { useUser } from "@/context/user.provider";
-import {
-  useDeletePost,
-  useDownvotePost,
-  useGetSinglePost,
-  useUpvotePost,
-} from "@/hooks/post.hook";
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import { TDisplayPost } from "@/types";
+import PostCardGallery from "@/components/modules/home/postCard/PostCardGallery";
 import PostCardLoading from "@/components/modules/home/postCard/PostCardLoading";
 import PostCardProfileSection from "@/components/modules/home/postCard/PostCardProfileSection";
-import PostCardGallery from "@/components/modules/home/postCard/PostCardGallery";
-import PostCardCommentSection from "@/components/modules/home/postCard/PostCardCommentSection";
+import PostDetails from "@/components/modules/postDetails/PostDetails";
+import { useUser } from "@/context/user.provider";
+import { useDeletePost, useGetSinglePost } from "@/hooks/post.hook";
+import { TDisplayPost } from "@/types";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import Link from "next/link";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
-const PostSinglePage = ({ params }: { params: { postId: string } }) => {
-  const router = useRouter();
+const PostDetailsPage = ({ params }: { params: { postId: string } }) => {
   const { data: postSingleData, isLoading: getSinglePostLoading } =
     useGetSinglePost(params?.postId);
   const { user: findUser, isLoading: userLoading } = useUser();
-  const { mutate: handleUpvote, data: upvoteData } = useUpvotePost();
-  const { mutate: handleDownvote, data: downvoteData } = useDownvotePost();
-  const { mutate: handleDeletePost, data: deletePostData } = useDeletePost();
-
-  useEffect(() => {
-    if (upvoteData?.success || downvoteData?.success) {
-      document.location.reload();
-    }
-  }, [upvoteData, downvoteData]);
-
-  useEffect(() => {
-    if (deletePostData?.success) {
-      router.push("/profile/my-posts");
-    }
-  }, [upvoteData, downvoteData, router, deletePostData]);
-
-  // upvote post
-  const handlePostUpvote = (postId: string) => {
-    handleUpvote(postId);
-  };
-
-  // downvote post
-  const handlePostDownvote = (postId: string) => {
-    handleDownvote(postId);
-  };
+  const { mutate: handleDeletePost } = useDeletePost();
 
   // download pdf
   const onDownload = (data: TDisplayPost) => {
@@ -101,7 +70,15 @@ const PostSinglePage = ({ params }: { params: { postId: string } }) => {
   };
 
   return (
-    <div className="xl:w-8/12 mx-auto">
+    <div className="py-4 xl:w-8/12 mx-auto">
+      <div className="mb-6">
+        <Link href="/dashboard/posts" className="w-fit flex items-center gap-2">
+          <span className="text-blue-600 text-xl">
+            <FaArrowLeftLong />
+          </span>
+          <span className="text-lg font-semibold">Back</span>
+        </Link>
+      </div>
       {getSinglePostLoading || userLoading ? (
         <PostCardLoading />
       ) : (
@@ -119,16 +96,20 @@ const PostSinglePage = ({ params }: { params: { postId: string } }) => {
               onDownload={onDownload}
             />
           </div>
-          <PostCardCommentSection
-            findUser={findUser}
-            post={postSingleData?.data}
-            handlePostUpvote={handlePostUpvote}
-            handlePostDownvote={handlePostDownvote}
-          />
+          <div className="mt-6 pt-6 border-t">
+            <div>
+              <span className="me-3 font-semibold text-xs">
+                Upvote : {postSingleData?.data?.upvote?.length}
+              </span>
+              <span className="font-semibold text-xs">
+                Downvote : {postSingleData?.data?.downvote?.length}
+              </span>
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-export default PostSinglePage;
+export default PostDetailsPage;

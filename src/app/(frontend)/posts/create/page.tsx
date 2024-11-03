@@ -147,7 +147,11 @@ const PostCreate = () => {
               >
                 <option value="">Select category</option>
                 {categoriesData?.data?.map((category: TPostCategory) => (
-                  <option key={category?._id} value={category?._id}>
+                  <option
+                    key={category?._id}
+                    value={category?._id}
+                    disabled={category?.isDisabled}
+                  >
                     {category?.title}
                   </option>
                 ))}

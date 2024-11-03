@@ -12,7 +12,7 @@ export const createPost = async (formData: TPost): Promise<any> => {
     revalidateTag("posts");
     return data;
   } catch (error: any) {
-    throw new Error(error?.message ? error?.message : "Failed to create post");
+    throw new Error(error?.response?.data?.message);
   }
 };
 
@@ -23,7 +23,7 @@ export const deletePost = async (postId: string): Promise<any> => {
     revalidateTag("posts");
     return data;
   } catch (error: any) {
-    throw new Error(error?.message ? error?.message : "Failed to delete post");
+    throw new Error(error?.response?.data?.message);
   }
 };
 
@@ -37,7 +37,7 @@ export const updatePost = async (
     revalidateTag("posts");
     return data;
   } catch (error: any) {
-    throw new Error(error?.message ? error?.message : "Failed to update post");
+    throw new Error(error?.response?.data?.message);
   }
 };
 
@@ -69,23 +69,25 @@ export const getAllPosts = async (params: TFilterProps) => {
   return res.json();
 };
 
-// upvote/downvote post
+// upvote post
 export const upvotePost = async (postId: string): Promise<any> => {
   try {
     const { data } = await axiosInstance.patch(`/post/upvote/${postId}`);
     revalidateTag("posts");
     return data;
   } catch (error: any) {
-    throw new Error(error?.message ? error?.message : "Failed to update post");
+    throw new Error(error?.response?.data?.message);
   }
 };
+
+// downvote post
 export const downvotePost = async (postId: string): Promise<any> => {
   try {
     const { data } = await axiosInstance.patch(`/post/downvote/${postId}`);
     revalidateTag("posts");
     return data;
   } catch (error: any) {
-    throw new Error(error?.message ? error?.message : "Failed to update post");
+    throw new Error(error?.response?.data?.message);
   }
 };
 

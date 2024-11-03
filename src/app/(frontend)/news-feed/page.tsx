@@ -237,6 +237,13 @@ const NewsFeed = () => {
           />
         ))}
       </div>
+      {!postLoading && allPosts?.length === 0 && (
+        <div className="mt-10">
+          <p className="text-center text-gray-300 text-2xl font-semibold">
+            No Post Found
+          </p>
+        </div>
+      )}
       {postLoading && (
         <div className="mt-10 flex justify-center">
           <RingLoader />

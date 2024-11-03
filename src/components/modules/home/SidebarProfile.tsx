@@ -65,9 +65,12 @@ const SidebarProfile = ({ userLoading, findUser }: TProps) => {
                     <FaCheckCircle /> Verified
                   </span>
                 ) : loggedInUser?.isVerified === "pending" ? (
-                  <button className="text-orange-600 text-[11px] font-medium flex items-center gap-1 border border-orange-600 rounded-md px-1">
+                  <Link
+                    href="/"
+                    className="w-fit text-orange-600 text-[11px] font-medium flex items-center gap-1 border border-orange-600 rounded-md px-1 transition-all duration-300 hover:bg-gray-900 hover:border-gray-900 hover:text-white"
+                  >
                     <IoWarningOutline /> Verify account
-                  </button>
+                  </Link>
                 ) : (
                   ""
                 )}

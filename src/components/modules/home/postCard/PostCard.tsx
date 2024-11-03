@@ -47,23 +47,33 @@ const PostCard = ({ controlCategoryTab, userLoading, findUser }: TProps) => {
         <PostCardLoading />
       ) : (
         <>
-          {posts?.data?.map((post: TDisplayPost) => (
-            <div key={post?._id} className="border rounded-lg p-6">
-              <PostCardProfileSection
-                post={post}
-                findUser={findUser}
-                handleDeletePost={handleDeletePost}
-              />
-              <PostCardGallery post={post} />
-              <PostCardDescription post={post} />
-              <PostCardCommentSection
-                findUser={findUser}
-                post={post}
-                handlePostUpvote={handlePostUpvote}
-                handlePostDownvote={handlePostDownvote}
-              />
+          {posts?.data?.length > 0 ? (
+            <>
+              {posts?.data?.map((post: TDisplayPost) => (
+                <div key={post?._id} className="border rounded-lg p-6">
+                  <PostCardProfileSection
+                    post={post}
+                    findUser={findUser}
+                    handleDeletePost={handleDeletePost}
+                  />
+                  <PostCardGallery post={post} />
+                  <PostCardDescription post={post} />
+                  <PostCardCommentSection
+                    findUser={findUser}
+                    post={post}
+                    handlePostUpvote={handlePostUpvote}
+                    handlePostDownvote={handlePostDownvote}
+                  />
+                </div>
+              ))}
+            </>
+          ) : (
+            <div className="mt-10">
+              <p className="text-center text-gray-300 text-2xl font-semibold">
+                No Post Found
+              </p>
             </div>
-          ))}
+          )}
           <div className="mt-4 flex justify-center">
             <Link href="/news-feed">
               <Button variant="default">See More</Button>

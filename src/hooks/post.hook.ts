@@ -11,13 +11,14 @@ import { TFilterProps, TPost } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+// create post
 export const useCreatePost = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, TPost>({
     mutationKey: ["CREATE_POST"],
     mutationFn: async (postData) => await createPost(postData),
-    onSuccess: () => {
-      toast.success("Post created successfully");
+    onSuccess: (data) => {
+      toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["GET_POSTS"] });
     },
     onError: (error) => {
@@ -26,13 +27,14 @@ export const useCreatePost = () => {
   });
 };
 
+// delete post
 export const useDeletePost = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, string>({
     mutationKey: ["DELETE_POST"],
     mutationFn: async (postId: string) => await deletePost(postId),
-    onSuccess: () => {
-      toast.success("Post deleted successfully");
+    onSuccess: (data) => {
+      toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["GET_POSTS"] });
     },
     onError: (error) => {
@@ -41,14 +43,15 @@ export const useDeletePost = () => {
   });
 };
 
+// update post
 export const useUpdatePost = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, { postId: string; postData: TPost }, void>({
     mutationKey: ["UPDATE_POST"],
     mutationFn: async ({ postId, postData }) =>
       await updatePost(postId, postData),
-    onSuccess: () => {
-      toast.success("Post updated successfully");
+    onSuccess: (data) => {
+      toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["GET_POSTS"] });
     },
     onError: (error) => {
@@ -57,6 +60,7 @@ export const useUpdatePost = () => {
   });
 };
 
+// get single post
 export const useGetSinglePost = (postId: string) => {
   return useQuery({
     queryKey: ["GET_SINGLE_POST", postId],
@@ -65,22 +69,23 @@ export const useGetSinglePost = (postId: string) => {
   });
 };
 
+// get all posts
 export const useGetAllPosts = (params?: TFilterProps) => {
   return useQuery({
     queryKey: ["GET_POSTS", params],
     queryFn: async () => await getAllPosts(params || {}),
     staleTime: 0,
-    enabled: !!params,
   });
 };
 
+// upvote post
 export const useUpvotePost = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, string>({
     mutationKey: ["UPVOTE_POST"],
     mutationFn: async (postId: string) => await upvotePost(postId),
-    onSuccess: () => {
-      toast.success("Post updated successfully");
+    onSuccess: (data) => {
+      toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["GET_POSTS"] });
     },
     onError: (error) => {
@@ -89,13 +94,14 @@ export const useUpvotePost = () => {
   });
 };
 
+// downvote post
 export const useDownvotePost = () => {
   const queryClient = useQueryClient();
   return useMutation<any, Error, string>({
     mutationKey: ["DOWNVOTE_POST"],
     mutationFn: async (postId: string) => await downvotePost(postId),
-    onSuccess: () => {
-      toast.success("Post updated successfully");
+    onSuccess: (data) => {
+      toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["GET_POSTS"] });
     },
     onError: (error) => {

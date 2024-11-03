@@ -1,13 +1,21 @@
-import { createCategory, getCategories } from "@/actions/CategoryActions";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  createCategory,
+  getCategories,
+  updateCategory,
+} from "@/actions/CategoryActions";
+import { TFilterProps } from "@/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+// create category
 export const useCreateCategory = () => {
-  return useMutation<any, Error, {title: string}>({
+  const queryClient = useQueryClient();
+  return useMutation<any, Error, { title: string }>({
     mutationKey: ["CREATE_CATEGORY"],
     mutationFn: async (categoryData) => await createCategory(categoryData),
-    onSuccess: () => {
-      toast.success("Category created successfully");
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["GET_CATEGORIES"] });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -15,9 +23,27 @@ export const useCreateCategory = () => {
   });
 };
 
-export const useGetCategories = () => {
+// get all categories
+export const useGetCategories = (params?: TFilterProps) => {
   return useQuery({
-    queryKey: ["GET_CATEGORIES"],
-    queryFn: async () => await getCategories(),
+    queryKey: ["GET_CATEGORIES", params],
+    queryFn: async () => await getCategories(params || {}),
+  });
+};
+
+// update category
+export const useUpdateCategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation<any, Error, { catId: string; catData: any }, void>({
+    mutationKey: ["UPDATE_CATEGORY"],
+    mutationFn: async ({ catId, catData }) =>
+      await updateCategory(catId, catData),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["GET_CATEGORIES"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
   });
 };

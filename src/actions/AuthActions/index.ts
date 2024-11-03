@@ -204,3 +204,14 @@ export const updateUserRole = async (
     throw new Error(error?.response?.data?.message);
   }
 };
+
+// verify user
+export const verifyUser = async (): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.patch(`/auth/user-verify`);
+    revalidateTag("user");
+    return data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message);
+  }
+};

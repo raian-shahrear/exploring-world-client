@@ -7,11 +7,12 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { IoCloseSharp, IoWarningOutline } from "react-icons/io5";
+import { IoCloseSharp } from "react-icons/io5";
 import { MdOutlineLogout, MdOutlineSpaceDashboard } from "react-icons/md";
 import userAvatar from "@/assets/icons/user-avatar-black.png";
 import { useGetAllUser } from "@/hooks/auth.hook";
 import { TUser } from "@/types";
+import VerifyUserModal from "@/components/ui/modal/VerifyUserModal";
 
 const NavbarUserDropdown = () => {
   const [controlDropdown, setControlDropdown] = useState(false);
@@ -63,12 +64,7 @@ const NavbarUserDropdown = () => {
                 <FaCheckCircle /> Verified
               </span>
             ) : loggedInUser?.isVerified === "pending" ? (
-              <Link
-                href="/"
-                className="w-fit text-orange-600 text-[11px] font-medium flex items-center gap-1 border border-orange-600 rounded-md px-1 transition-all duration-300 hover:bg-gray-900 hover:border-gray-900 hover:text-white"
-              >
-                <IoWarningOutline /> Verify account
-              </Link>
+              <VerifyUserModal />
             ) : (
               ""
             )}

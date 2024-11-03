@@ -1,15 +1,15 @@
-import { TDisplayPost, TLoggedInUser } from "@/types";
+import { TDisplayPost, TUser } from "@/types";
 import React from "react";
 import { BiDownload } from "react-icons/bi";
 import { FaRegFilePdf } from "react-icons/fa";
 
 type TProps = {
   post: TDisplayPost;
-  findUser: TLoggedInUser | null;
+  loggedInUser: TUser;
   onDownload: (data: TDisplayPost) => void;
 };
 
-const PostDetails = ({ post, findUser, onDownload }: TProps) => {
+const PostDetails = ({ post, loggedInUser, onDownload }: TProps) => {
   return (
     <div className="mt-6">
       <div id={post?._id}>
@@ -37,9 +37,9 @@ const PostDetails = ({ post, findUser, onDownload }: TProps) => {
             <span>{post?.travelStory}</span>
           </p>
         </div>
-        {findUser?.id === post?.author?._id ||
-        findUser?.isVerified === "verified" ||
-        findUser?.role === "admin" ? (
+        {loggedInUser?._id === post?.author?._id ||
+        loggedInUser?.isVerified === "verified" ||
+        loggedInUser?.role === "admin" ? (
           <div>
             <div className="mt-3">
               <p className="text-sm flex flex-col gap-[2px] jodit-editor-style">

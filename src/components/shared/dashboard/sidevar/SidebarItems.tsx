@@ -5,7 +5,6 @@ import { protectedRoutes } from "@/constant";
 import { useUser } from "@/context/user.provider";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect } from "react";
 import { BsFileEarmarkPostFill } from "react-icons/bs";
 import { FaUserCheck, FaUserCog, FaUsers } from "react-icons/fa";
 import { MdOutlineLogout, MdOutlineSpaceDashboard } from "react-icons/md";
@@ -27,12 +26,6 @@ const SidebarItems = () => {
       router.push("/");
     }
   };
-
-  useEffect(() => {
-    if (!user) {
-      document.location.reload();
-    }
-  }, [user]);
   return (
     <>
       {userLoading ? (

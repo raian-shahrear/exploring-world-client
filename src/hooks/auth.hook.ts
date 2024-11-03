@@ -9,6 +9,7 @@ import {
   updateUser,
   updateUserEmail,
   updateUserRole,
+  verifyUser,
 } from "@/actions/AuthActions";
 import { useUser } from "@/context/user.provider";
 import { TFilterProps, TLoggedInUser, TUser } from "@/types";
@@ -169,6 +170,22 @@ export const useUpdateUserRole = () => {
     mutationKey: ["UPDATE_USER_ROLE"],
     mutationFn: async ({ userId, userData }) =>
       await updateUserRole(userId, userData),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["GET_USER"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+// verify user
+export const useVerifyUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation<any, Error>({
+    mutationKey: ["VERIFY_USER"],
+    mutationFn: async () => await verifyUser(),
     onSuccess: (data) => {
       toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["GET_USER"] });

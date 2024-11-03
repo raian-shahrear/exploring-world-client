@@ -1,6 +1,5 @@
 "use client";
 import { FaCheckCircle } from "react-icons/fa";
-import { IoWarningOutline } from "react-icons/io5";
 import { TLoggedInUser, TUser } from "@/types";
 import { useGetAllUser, useUnfollowUser } from "@/hooks/auth.hook";
 import { format, parseISO } from "date-fns";
@@ -9,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { IoMdArrowDropdown, IoMdArrowDropup, IoMdClose } from "react-icons/io";
 import { Skeleton } from "@/components/ui/skeleton";
+import VerifyUserModal from "@/components/ui/modal/VerifyUserModal";
 
 type TProps = {
   userLoading: boolean;
@@ -65,12 +65,7 @@ const SidebarProfile = ({ userLoading, findUser }: TProps) => {
                     <FaCheckCircle /> Verified
                   </span>
                 ) : loggedInUser?.isVerified === "pending" ? (
-                  <Link
-                    href="/"
-                    className="w-fit text-orange-600 text-[11px] font-medium flex items-center gap-1 border border-orange-600 rounded-md px-1 transition-all duration-300 hover:bg-gray-900 hover:border-gray-900 hover:text-white"
-                  >
-                    <IoWarningOutline /> Verify account
-                  </Link>
+                  <VerifyUserModal />
                 ) : (
                   ""
                 )}

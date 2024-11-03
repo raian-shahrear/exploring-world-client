@@ -91,15 +91,3 @@ export const downvotePost = async (postId: string): Promise<any> => {
   }
 };
 
-// get my posts
-// export const getMyPosts = async () => {
-//   const user = await getCurrentUser();
-//   const res = await axiosInstance.get(`/post/byUser/${user?._id}`);
-//   return res.data;
-// };
-
-// get posts by any user
-// export const getUserPosts = async (userId: string) => {
-//   const res = await axiosInstance.get(`/post/byUser/${userId}`);
-//   return res.data;
-// };

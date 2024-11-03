@@ -11,17 +11,22 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { TDisplayPost } from "@/types";
+import { TDisplayPost, TUser } from "@/types";
 import PostCardLoading from "@/components/modules/home/postCard/PostCardLoading";
 import PostCardProfileSection from "@/components/modules/home/postCard/PostCardProfileSection";
 import PostCardGallery from "@/components/modules/home/postCard/PostCardGallery";
 import PostCardCommentSection from "@/components/modules/home/postCard/PostCardCommentSection";
+import { useGetAllUser } from "@/hooks/auth.hook";
 
 const PostSinglePage = ({ params }: { params: { postId: string } }) => {
   const router = useRouter();
   const { data: postSingleData, isLoading: getSinglePostLoading } =
     useGetSinglePost(params?.postId);
   const { user: findUser, isLoading: userLoading } = useUser();
+  const { data: allUsers } = useGetAllUser();
+  const loggedInUser: TUser = allUsers?.data?.find(
+    (user: TUser) => user?._id === findUser?.id
+  );
   const { mutate: handleUpvote, data: upvoteData } = useUpvotePost();
   const { mutate: handleDownvote, data: downvoteData } = useDownvotePost();
   const { mutate: handleDeletePost, data: deletePostData } = useDeletePost();
@@ -115,7 +120,7 @@ const PostSinglePage = ({ params }: { params: { postId: string } }) => {
           <div id={postSingleData?.data?._id}>
             <PostDetails
               post={postSingleData?.data}
-              findUser={findUser}
+              loggedInUser={loggedInUser}
               onDownload={onDownload}
             />
           </div>

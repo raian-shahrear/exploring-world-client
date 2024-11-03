@@ -71,9 +71,7 @@ const Users = () => {
                         {userInfo?.name}
                       </TableCell>
                       <TableCell className="font-medium">
-                        <span className="max-w-44 inline-block text-ellipsis whitespace-nowrap overflow-hidden">
-                          {userInfo?.email}
-                        </span>
+                        {userInfo?.email}
                       </TableCell>
                       <TableCell className="font-medium">
                         {userInfo?.phone}
@@ -81,8 +79,16 @@ const Users = () => {
                       <TableCell className="font-medium">
                         {userInfo?.address}
                       </TableCell>
-                      <TableCell className="font-medium">
-                        {userInfo?.role}
+                      <TableCell>
+                        <span
+                          className={`capitalize font-semibold ${
+                            userInfo?.role === "admin"
+                              ? "text-blue-600"
+                              : "text-gray-900"
+                          }`}
+                        >
+                          {userInfo?.role}
+                        </span>
                       </TableCell>
                       <TableCell className="font-medium">
                         {userInfo?.isVerified === "no" ? (

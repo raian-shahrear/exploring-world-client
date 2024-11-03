@@ -6,21 +6,28 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { TLoggedInUser } from "@/types";
+import { TLoggedInUser, TUser } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { FaHouseUser, FaPhoneAlt, FaUserCog, FaUserEdit } from "react-icons/fa";
 import { FaCircleCheck } from "react-icons/fa6";
 
 type TProps = {
-  userLoading: boolean;
   user: TLoggedInUser | null;
+  loggedInUser: TUser;
+  userLoading: boolean;
+  allUserLoading: boolean;
 };
 
-const DashboardProfileSection = ({ userLoading, user }: TProps) => {
+const DashboardProfileSection = ({
+  user,
+  loggedInUser,
+  userLoading,
+  allUserLoading,
+}: TProps) => {
   return (
     <div>
-      {userLoading ? (
+      {userLoading || allUserLoading ? (
         <div className="shadow-md h-[200px] rounded-lg">
           <div className="p-4">
             <div className="grid grid-cols-[56px_auto] items-center gap-3">
@@ -49,18 +56,19 @@ const DashboardProfileSection = ({ userLoading, user }: TProps) => {
                   height={56}
                   className="w-14 h-14 rounded-full border-2 border-gray-900 p-1 object-cover object-center"
                 />
-                {user?.isVerified === "verified" && user?.role === "user" && (
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger className="text-green-600 absolute top-0 right-0 z-[1] bg-white rounded-full cursor-pointer">
-                        <FaCircleCheck />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Verified User</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                )}
+                {loggedInUser?.isVerified === "verified" &&
+                  loggedInUser?.role === "user" && (
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger className="text-green-600 absolute top-0 right-0 z-[1] bg-white rounded-full cursor-pointer">
+                          <FaCircleCheck />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Verified User</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
               </div>
               <div className="text-gray-900 max-w-[70%]">
                 <p className="mb-[2px] text-base font-semibold text-ellipsis overflow-hidden whitespace-nowrap">
@@ -96,7 +104,9 @@ const DashboardProfileSection = ({ userLoading, user }: TProps) => {
                 <span>Phone</span>
               </p>
               <p>:</p>
-              <p className="text-ellipsis overflow-hidden whitespace-nowrap">{user?.userPhone}</p>
+              <p className="text-ellipsis overflow-hidden whitespace-nowrap">
+                {user?.userPhone}
+              </p>
             </div>
             <div className="text-gray-900 text-sm grid grid-cols-[90px_10px_auto] items-start">
               <p className="flex items-center gap-1">
@@ -106,7 +116,9 @@ const DashboardProfileSection = ({ userLoading, user }: TProps) => {
                 <span>Address</span>
               </p>
               <p>:</p>
-              <p className="text-ellipsis overflow-hidden whitespace-nowrap">{user?.userAddress}</p>
+              <p className="text-ellipsis overflow-hidden whitespace-nowrap">
+                {user?.userAddress}
+              </p>
             </div>
           </div>
         </section>

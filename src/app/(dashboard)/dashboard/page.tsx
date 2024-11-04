@@ -8,7 +8,8 @@ import { useGetAllUser } from "@/hooks/auth.hook";
 import DashboardAllUsersSection from "@/components/modules/dashboard/DashboardAllUsersSection";
 import { TUser } from "@/types";
 import DashboardFollowUsersSection from "@/components/modules/dashboard/DashboardFollowUsersSection";
-import DashboardPostChartSection from "@/components/modules/dashboard/DashboardPostChartSection";
+import DashboardPostChartSection from "@/components/modules/dashboard/DashboardGraph/DashboardPostChartSection";
+import DashboardUserVerificationChart from "@/components/modules/dashboard/DashboardGraph/DashboardUserVerificationChar";
 
 const DashboardPage = () => {
   const { user, isLoading: userLoading } = useUser();
@@ -53,10 +54,14 @@ const DashboardPage = () => {
           </>
         )}
       </div>
-
-      <div className="mt-6">
-        <DashboardPostChartSection posts={posts} postLoading={postLoading} />
-      </div>
+      {user?.role === "admin" && (
+        <div className="mt-6">
+          <div className="grid grid-cols-1 2xl:grid-cols-[auto_500px] gap-y-6 gap-x-4">
+          <DashboardPostChartSection posts={posts} postLoading={postLoading} />
+          <DashboardUserVerificationChart allUsers={allUsers} allUserLoading={allUserLoading} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

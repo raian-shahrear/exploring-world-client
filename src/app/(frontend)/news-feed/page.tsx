@@ -163,8 +163,8 @@ const NewsFeed = () => {
               }
             >
               <option>Sort by upvote</option>
-              <option value="-upvote">Most Upvote</option>
-              <option value="upvote">Lest Upvote</option>
+              <option value="-upvoteCount">Most Upvote</option>
+              <option value="upvoteCount">Lest Upvote</option>
             </select>
           </div>
           <div>

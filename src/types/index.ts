@@ -67,6 +67,7 @@ export type TDisplayPost = {
   };
   upvote?: string[] | [];
   downvote?: string[] | [];
+  upvoteCount: number;
   createdAt: string;
   updatedAt: string;
   __v: number;

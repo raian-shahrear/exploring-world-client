@@ -56,17 +56,13 @@ export const getSinglePost = async (postId: string): Promise<any> => {
 // get all post
 export const getAllPosts = async (params: TFilterProps) => {
   const queryString = buildQueryParams(params);
-  const fetchOption = {
-    next: {
-      tags: ["posts"],
-      revalidate: 1,
-    },
-  };
-  const res = await fetch(
-    `${envConfig.API_URL}/post?${queryString}`,
-    fetchOption
-  );
-  return res.json();
+  try {
+    const { data } = await axiosInstance.get(`/post?${queryString}`);
+    revalidateTag("posts");
+    return data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message);
+  }
 };
 
 // upvote post

@@ -132,11 +132,8 @@ const SidebarItems = () => {
               <span>My Profile</span>
             </Link>
           </li>
-          <li>
-            <button
-              onClick={() => handleLogout()}
-              className="flex items-center justify-start gap-2 w-full text-sm font-medium tracking-wide text-gray-500 px-4 py-2 rounded-[40px] transition-all duration-300 hover:bg-gray-200 hover:text-gray-900"
-            >
+          <li onClick={() => handleLogout()}>
+            <button className="flex items-center justify-start gap-2 w-full text-sm font-medium tracking-wide text-gray-500 px-4 py-2 rounded-[40px] transition-all duration-300 hover:bg-gray-200 hover:text-gray-900">
               <span className="text-lg">
                 <MdOutlineLogout />
               </span>

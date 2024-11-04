@@ -4,8 +4,9 @@ import PostCardLoading from "@/components/modules/home/postCard/PostCardLoading"
 import PostCardProfileSection from "@/components/modules/home/postCard/PostCardProfileSection";
 import PostDetails from "@/components/modules/postDetails/PostDetails";
 import { useUser } from "@/context/user.provider";
+import { useGetAllUser } from "@/hooks/auth.hook";
 import { useDeletePost, useGetSinglePost } from "@/hooks/post.hook";
-import { TDisplayPost } from "@/types";
+import { TDisplayPost, TUser } from "@/types";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import Link from "next/link";
@@ -15,6 +16,10 @@ const PostDetailsPage = ({ params }: { params: { postId: string } }) => {
   const { data: postSingleData, isLoading: getSinglePostLoading } =
     useGetSinglePost(params?.postId);
   const { user: findUser, isLoading: userLoading } = useUser();
+  const { data: allUsers } = useGetAllUser();
+  const loggedInUser: TUser = allUsers?.data?.find(
+    (user: TUser) => user?._id === findUser?.id
+  );
   const { mutate: handleDeletePost } = useDeletePost();
 
   // download pdf
@@ -92,7 +97,7 @@ const PostDetailsPage = ({ params }: { params: { postId: string } }) => {
           <div id={postSingleData?.data?._id}>
             <PostDetails
               post={postSingleData?.data}
-              findUser={findUser}
+              loggedInUser={loggedInUser}
               onDownload={onDownload}
             />
           </div>

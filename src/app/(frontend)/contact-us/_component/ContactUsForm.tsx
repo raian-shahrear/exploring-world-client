@@ -1,8 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { toast } from "sonner";
 
 const ContactUsForm = () => {
+  const [changeEmail, setChangeEmail] = useState("");
+  const [changeMessage, setChangeMessage] = useState("");
   return (
     <div className="shadow-lg p-6 xl:p-10 rounded-md">
       <p className="text-lg font-semibold mb-2">Say Something</p>
@@ -27,6 +30,8 @@ const ContactUsForm = () => {
             name="email"
             className="border border-gray-300 w-full h-9 px-2 py-1 text-sm rounded-sm"
             placeholder="Enter email"
+            onChange={(e) => setChangeEmail(e.target.value)}
+            required
           />
         </div>
         <div className="mt-2">
@@ -37,12 +42,15 @@ const ContactUsForm = () => {
             name="message"
             className="border border-gray-300 w-full min-h-24 px-2 py-1 text-sm rounded-sm"
             placeholder="Write here..."
+            onChange={(e) => setChangeMessage(e.target.value)}
+            required
           ></textarea>
         </div>
         <Button
           type="submit"
           className="h-fit p-2 mt-2"
           onClick={() => toast.success("Thanks for your message!")}
+          disabled={changeEmail && changeMessage ? false : true}
         >
           Send
         </Button>

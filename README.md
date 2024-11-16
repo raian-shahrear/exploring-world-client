@@ -26,6 +26,7 @@ Exploring World allows users to register and log in to create, edit, and delete 
 - Frontend: Next.js, TailwindCSS, Shadcn, Typescript etc.
 - Backend: Node.js, Express.js, Typescript, MongoDB, Mongoose etc.
 - Payment: AAmarPay.
+- Image store: Cloudinary.
 
 ## Installation Guideline
 - First install the next.js and select Typescript and tailwindCSS there. 
@@ -51,13 +52,11 @@ Exploring World allows users to register and log in to create, edit, and delete 
    Example:
    ```bash
     NEXT_PUBLIC_API_URL=local_or_live_link
-    NEXT_PUBLIC_API_KEY_IMGBB=key_imgbb
    ```
 3. Then the `.env` file needs to be connected with the `src > config` file.
    ```js
     const envConfig = {
         API_URL: process.env.NEXT_PUBLIC_API_URL,
-        API_KEY_IMGBB: process.env.NEXT_PUBLIC_API_KEY_IMGBB,
     };
   
     export default envConfig;

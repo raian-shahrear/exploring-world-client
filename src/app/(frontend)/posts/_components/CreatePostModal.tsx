@@ -143,16 +143,16 @@ const CreatePostModal = () => {
         </button>
       </DialogTrigger>
       <DialogContent className="lg:max-w-[992px] xl:max-w-[1200px] max-h-[80vh] overflow-y-auto overflow-x-hidden">
-        <form onSubmit={handleSubmit(handlePost)}>
-          <DialogHeader>
-            <DialogTitle>Create Post</DialogTitle>
-          </DialogHeader>
-          <div className="my-4">
-            {createPostPending ? (
-              <div className="flex justify-center items-center py-7 h-[50vh]">
-                <RingLoader />
-              </div>
-            ) : (
+        {createPostPending ? (
+          <div className="flex justify-center items-center py-7 h-[50vh]">
+            <RingLoader />
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit(handlePost)}>
+            <DialogHeader>
+              <DialogTitle>Create Post</DialogTitle>
+            </DialogHeader>
+            <div className="my-4">
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div className="flex flex-col gap-1">
@@ -281,17 +281,17 @@ const CreatePostModal = () => {
                   </div>
                 </div>
               </div>
-            )}
-          </div>
-          <DialogFooter>
-            <button
-              type="submit"
-              className="bg-gray-900 text-white py-2 px-3 rounded-md"
-            >
-              Submit
-            </button>
-          </DialogFooter>
-        </form>
+            </div>
+            <DialogFooter>
+              <button
+                type="submit"
+                className="bg-gray-900 text-white py-2 px-3 rounded-md"
+              >
+                Submit
+              </button>
+            </DialogFooter>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   );

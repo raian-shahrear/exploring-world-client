@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/user.provider";
 import { useUpdateUser } from "@/hooks/auth.hook";
-import { getImageUrl } from "@/utils/getImageUrl";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { FaEdit, FaUserEdit } from "react-icons/fa";
 import { toast } from "sonner";
@@ -45,18 +44,18 @@ const MyProfile = () => {
     const profileFile = profileInput.files && profileInput.files[0];
 
     try {
-      let imageUrl = user?.userProfile;
+      const formData = new FormData();
       if (profileFile) {
-        imageUrl = await getImageUrl.getSingleImageUrl(profileFile);
+        formData.append("image", profileFile);
       }
-
       const updateUser = {
         name: (form.elements.namedItem("name") as HTMLInputElement).value,
         phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
-        profile: imageUrl,
         address: (form.elements.namedItem("address") as HTMLInputElement).value,
       };
-      handleUpdateUser({ userId: user!.id, userData: updateUser });
+      formData.append("data", JSON.stringify(updateUser));
+
+      handleUpdateUser({ userId: user!.id, userData: formData });
     } catch (err: any) {
       toast.error(
         err?.data?.message ? err?.data?.message : "Something went wrong!"

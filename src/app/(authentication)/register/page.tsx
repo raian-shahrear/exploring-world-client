@@ -1,7 +1,6 @@
 "use client";
 import CommonLoader from "@/components/ui/loading/CommonLoader";
 import { useRegistration } from "@/hooks/auth.hook";
-import { getImageUrl } from "@/utils/getImageUrl";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -28,16 +27,20 @@ const Register = () => {
   const handleSignup: SubmitHandler<FieldValues> = async (data) => {
     if (isValid || !isSubmitting) {
       try {
-        const imageUrl = await getImageUrl.getSingleImageUrl(data.profile[0]);
+        const formData = new FormData();
+
         const newUser = {
           name: data.name,
           email: data.email,
           password: data.password,
           phone: data.phone,
           address: data.address,
-          profile: imageUrl,
         };
-        handleRegistration(newUser);
+
+        formData.append("data", JSON.stringify(newUser));
+        formData.append("image", data.profile[0]);
+
+        handleRegistration(formData);
         reset();
       } catch (err: any) {
         toast.error(

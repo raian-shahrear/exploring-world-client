@@ -8,12 +8,16 @@ import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
 // register/create user
-export const registerUser = async (userData: FieldValues) => {
+export const registerUser = async (userData: FormData) => {
   try {
-    const { data } = await axiosInstance.post("/auth/signup", userData);
+    const { data } = await axiosInstance.post("/auth/signup", userData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return data;
   } catch (error: any) {
-    throw new Error(error?.response?.data?.message);
+    return { success: false, message: error?.response?.data?.message };
   }
 };
 
@@ -27,7 +31,7 @@ export const loginUser = async (userData: FieldValues) => {
     }
     return data;
   } catch (error: any) {
-    throw new Error(error?.response?.data?.message);
+    return { success: false, message: error?.response?.data?.message };
   }
 };
 
@@ -136,12 +140,17 @@ export const unfollowUser = async (userData: FieldValues): Promise<any> => {
 // update user
 export const updateUser = async (
   userId: string,
-  formData: Partial<TUser>
+  formData: FormData
 ): Promise<any> => {
   try {
     const { data } = await axiosInstance.patch(
       `/auth/users/${userId}`,
-      formData
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
     revalidateTag("user");
 

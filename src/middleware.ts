@@ -6,7 +6,6 @@ const roleBaseRoutes = {
   user: [
     "/profile",
     "/profile/:path*",
-    "/posts/create",
     "/posts/edit/:path*",
     "/dashboard",
     "/dashboard/follow-users",

@@ -9,8 +9,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import { IoWarningOutline } from "react-icons/io5";
 import { Skeleton } from "@/components/ui/skeleton";
 import Pagination from "@/components/ui/pagination/Pagination";
-import CreatePost from "@/components/modules/home/CreatePost";
 import VerifyUserModal from "@/components/ui/modal/VerifyUserModal";
+import CreatePostModal from "../../posts/_components/CreatePostModal";
 
 const MyPosts = () => {
   const [dataLimit, setDataLimit] = useState(4);
@@ -86,8 +86,8 @@ const MyPosts = () => {
         </div>
       )}
       {findUser && findUser?.role === "user" && (
-        <div className="mt-10 w-8/12 mx-auto">
-          <CreatePost findUser={findUser} />
+        <div className="border rounded-lg p-6 mt-10 w-8/12 mx-auto">
+          <CreatePostModal />
         </div>
       )}
       {postLoading ? (

@@ -7,14 +7,14 @@ import {
   updatePost,
   upvotePost,
 } from "@/actions/PostAction";
-import { TFilterProps, TPost } from "@/types";
+import { TFilterProps } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 // create post
 export const useCreatePost = () => {
   const queryClient = useQueryClient();
-  return useMutation<any, Error, TPost>({
+  return useMutation<any, Error, FormData>({
     mutationKey: ["CREATE_POST"],
     mutationFn: async (postData) => await createPost(postData),
     onSuccess: (data) => {
@@ -46,7 +46,7 @@ export const useDeletePost = () => {
 // update post
 export const useUpdatePost = () => {
   const queryClient = useQueryClient();
-  return useMutation<any, Error, { postId: string; postData: TPost }, void>({
+  return useMutation<any, Error, { postId: string; postData: FormData }, void>({
     mutationKey: ["UPDATE_POST"],
     mutationFn: async ({ postId, postData }) =>
       await updatePost(postId, postData),

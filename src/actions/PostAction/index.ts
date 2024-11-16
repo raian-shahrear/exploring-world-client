@@ -2,13 +2,17 @@
 import envConfig from "@/config";
 import axiosInstance from "@/lib/AxiosInstance";
 import { revalidateTag } from "next/cache";
-import { TFilterProps, TPost } from "@/types";
+import { TFilterProps } from "@/types";
 import { buildQueryParams } from "@/utils/buildQueryParams";
 
 // create post
-export const createPost = async (formData: TPost): Promise<any> => {
+export const createPost = async (formData: FormData): Promise<any> => {
   try {
-    const { data } = await axiosInstance.post("/post", formData);
+    const { data } = await axiosInstance.post("/post", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     revalidateTag("posts");
     return data;
   } catch (error: any) {
@@ -30,10 +34,14 @@ export const deletePost = async (postId: string): Promise<any> => {
 // update post
 export const updatePost = async (
   postId: string,
-  formData: TPost
+  formData: FormData
 ): Promise<any> => {
   try {
-    const { data } = await axiosInstance.patch(`/post/${postId}`, formData);
+    const { data } = await axiosInstance.patch(`/post/${postId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     revalidateTag("posts");
     return data;
   } catch (error: any) {
@@ -86,4 +94,3 @@ export const downvotePost = async (postId: string): Promise<any> => {
     throw new Error(error?.response?.data?.message);
   }
 };
-

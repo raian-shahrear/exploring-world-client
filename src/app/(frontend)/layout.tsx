@@ -1,6 +1,7 @@
 import FrontendFooter from "@/components/shared/frontend/footer/Footer";
 import FrontendNavbar from "@/components/shared/frontend/navbar/Navbar";
 import React from "react";
+import 'react-quill/dist/quill.snow.css';
 
 const FrontendLayout = ({ children }: { children: React.ReactNode }) => {
   return (

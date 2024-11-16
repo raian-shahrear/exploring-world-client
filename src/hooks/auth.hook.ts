@@ -19,14 +19,15 @@ import { toast } from "sonner";
 
 // register/create user
 export const useRegistration = () => {
-  return useMutation<any, Error, FieldValues>({
+  return useMutation<any, Error, FormData>({
     mutationKey: ["REGISTRATION"],
     mutationFn: async (userData) => await registerUser(userData),
     onSuccess: (data) => {
-      toast.success(data?.message);
-    },
-    onError: (error) => {
-      toast.error(error?.message);
+      if (!data.success) {
+        toast.error(data.message);
+      } else {
+        toast.success(data?.message);
+      }
     },
   });
 };
@@ -37,10 +38,11 @@ export const useLogin = () => {
     mutationKey: ["LOGIN"],
     mutationFn: async (userData) => await loginUser(userData),
     onSuccess: (data) => {
-      toast.success(data.message);
-    },
-    onError: (error) => {
-      toast.error(error?.message);
+      if (!data.success) {
+        toast.error(data.message);
+      } else {
+        toast.success(data?.message);
+      }
     },
   });
 };
@@ -101,12 +103,7 @@ export const useUnfollowUser = () => {
 export const useUpdateUser = () => {
   const { setUser } = useUser();
   const queryClient = useQueryClient();
-  return useMutation<
-    any,
-    Error,
-    { userId: string; userData: Partial<TUser> },
-    void
-  >({
+  return useMutation<any, Error, { userId: string; userData: FormData }, void>({
     mutationKey: ["UPDATE_USER"],
     mutationFn: async ({ userId, userData }) =>
       await updateUser(userId, userData),

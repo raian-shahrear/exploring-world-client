@@ -29,7 +29,7 @@ Exploring World allows users to register and log in to create, edit, and delete 
 
 ## Installation Guideline
 - First install the next.js and select Typescript and tailwindCSS there. 
-- Install Shadcn, axios, html2canvas, jspdf, jodit-react for text editor, sonner and other required npm packages.
+- Install Shadcn, axios, html2canvas, jspdf, react-quill, sonner and other required npm packages.
 - Run the App by `npm run dev`
 - Create require folder to the `src > app` and open file name `page.tsx`, this folder structure will help to create page and route.
 - Implement server-action & hook for fetch and middleware for private route.
@@ -42,7 +42,7 @@ Exploring World allows users to register and log in to create, edit, and delete 
 
 ### Installation Steps
 1. Create NextJs app by `npx create-next-app@latest`.
-2. Install the required npm package where TailwindCSS & Shadcn for managing CSS, html2canvas & jspdf for pdf, jodit-react for text editor and sonner for toaster.
+2. Install the required npm package where TailwindCSS & Shadcn for managing CSS, html2canvas & jspdf for pdf, react-quill for text editor and sonner for toaster.
 3. Under the src folder there are some folder for specific purpose like app, assets, components, config, hooks, types, actions, context, lib and utils and separate files are middleware.ts and constant.ts.
 
 ### Configuration

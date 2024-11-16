@@ -1,11 +1,11 @@
 "use client";
-import CreatePost from "@/components/modules/home/CreatePost";
 import PostCard from "@/components/modules/home/postCard/PostCard";
 import PostCategory from "@/components/modules/home/PostCategory";
 import SidebarFollow from "@/components/modules/home/SidebarFollow";
 import SidebarProfile from "@/components/modules/home/SidebarProfile";
 import { useUser } from "@/context/user.provider";
 import React, { useState } from "react";
+import CreatePostModal from "./posts/_components/CreatePostModal";
 
 const HomePage = () => {
   const { user: findUser, isLoading: userLoading } = useUser();
@@ -25,7 +25,9 @@ const HomePage = () => {
       )}
       <div>
         {findUser && findUser?.role === "user" && (
-          <CreatePost userLoading={userLoading} findUser={findUser} />
+          <div className="border rounded-lg p-6">
+            <CreatePostModal />
+          </div>
         )}
         <div
           className={`${

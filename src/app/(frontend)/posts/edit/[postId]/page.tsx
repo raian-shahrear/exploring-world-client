@@ -2,17 +2,29 @@
 import CommonLoader from "@/components/ui/loading/CommonLoader";
 import { useGetCategories } from "@/hooks/category.hook";
 import { useGetSinglePost, useUpdatePost } from "@/hooks/post.hook";
-import { TPost, TPostCategory } from "@/types";
-import { getImageUrl } from "@/utils/getImageUrl";
+import { TPostCategory } from "@/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
 
-const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ size: ["small", false, "large", "huge"] }],
+    ["bold", "italic", "underline", "strike", "blockquote", "code-block"],
+    [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+    [{ script: "sub" }, { script: "super" }],
+    ["link", "image", "video", "formula"],
+    [{ align: [] }],
+    [{ color: [] }, { background: [] }],
+    ["clean"],
+  ],
+};
 
 const EditPostById = ({ params }: { params: any }) => {
   const router = useRouter();
@@ -23,7 +35,6 @@ const EditPostById = ({ params }: { params: any }) => {
     useGetCategories();
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
-  const editor = useRef(null);
   const [travelGuide, setTravelGuide] = useState("");
   const [destinationTips, setDestinationTips] = useState("");
   const {
@@ -31,16 +42,6 @@ const EditPostById = ({ params }: { params: any }) => {
     isPending: updatePostPending,
     isSuccess,
   } = useUpdatePost();
-
-  const config = useMemo(
-    () => ({
-      readonly: false,
-      toolbarSticky: false,
-      height: 300,
-      toolbar: true,
-    }),
-    []
-  );
 
   const {
     register,
@@ -65,14 +66,15 @@ const EditPostById = ({ params }: { params: any }) => {
   const handlePost: SubmitHandler<FieldValues> = async (data) => {
     if (isValid || !isSubmitting) {
       try {
-        let imageUrl = imagesPreview.filter((img) => !img.startsWith("data:"));
+        const imageUrl = imagesPreview?.filter((img) => !img.startsWith("data:"));
+        const formData = new FormData();
+
         if (selectedImages.length > 0) {
-          const uploadedImages = await getImageUrl.getMultiImageUrl(
-            selectedImages
-          );
-          imageUrl = [...imageUrl, ...uploadedImages];
+          for (const postImg of selectedImages) {
+            formData.append("images", postImg);
+          }
         }
-        const newPost: TPost = {
+        const newPost = {
           title: data?.title,
           category: data?.category,
           image: imageUrl,
@@ -82,7 +84,9 @@ const EditPostById = ({ params }: { params: any }) => {
             destinationTips,
           },
         };
-        handleUpdatePost({ postId: postData?._id, postData: newPost });
+        formData.append("data", JSON.stringify(newPost));
+
+        handleUpdatePost({ postId: postData?._id, postData: formData });
       } catch (err: any) {
         toast.error(
           err?.data?.message ? err?.data?.message : "Something went wrong!"
@@ -92,7 +96,7 @@ const EditPostById = ({ params }: { params: any }) => {
   };
 
   //   Handle image change
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
 
@@ -241,26 +245,24 @@ const EditPostById = ({ params }: { params: any }) => {
                 <label className="text-sm font-semibold inline-block mb-1">
                   Travel Guide
                 </label>
-                <JoditEditor
-                  ref={editor}
+                <ReactQuill
+                  theme="snow"
                   value={travelGuide}
-                  config={config}
-                  onChange={(newContent) => {
-                    setTravelGuide(newContent);
-                  }}
+                  onChange={setTravelGuide}
+                  modules={modules}
+                  placeholder="Write about travel guide..."
                 />
               </div>
               <div>
                 <label className="text-sm font-semibold inline-block mb-1">
                   Destination Tips
                 </label>
-                <JoditEditor
-                  ref={editor}
+                <ReactQuill
+                  theme="snow"
                   value={destinationTips}
-                  config={config}
-                  onChange={(newContent) => {
-                    setDestinationTips(newContent);
-                  }}
+                  onChange={setDestinationTips}
+                  modules={modules}
+                  placeholder="Write about destination tips..."
                 />
               </div>
             </div>

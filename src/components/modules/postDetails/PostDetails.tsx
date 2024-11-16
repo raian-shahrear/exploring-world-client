@@ -42,7 +42,7 @@ const PostDetails = ({ post, loggedInUser, onDownload }: TProps) => {
         loggedInUser?.role === "admin" ? (
           <div>
             <div className="mt-3">
-              <p className="text-sm flex flex-col gap-[2px] jodit-editor-style">
+              <p className="text-sm flex flex-col gap-[2px] editor-style">
                 <span className="font-bold">Travel Guide : </span>
                 {post?.premium?.travelGuide?.length > 0 ? (
                   <span
@@ -58,7 +58,7 @@ const PostDetails = ({ post, loggedInUser, onDownload }: TProps) => {
               </p>
             </div>
             <div className="mt-3 pb-1">
-              <p className="text-sm flex flex-col gap-[2px] jodit-editor-style">
+              <p className="text-sm flex flex-col gap-[2px] editor-style">
                 <span className="font-bold">Destination Tips : </span>
                 {post?.premium?.destinationTips?.length > 0 ? (
                   <span

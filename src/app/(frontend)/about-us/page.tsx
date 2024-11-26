@@ -5,6 +5,12 @@ import { GoGoal } from "react-icons/go";
 import { RiTeamFill } from "react-icons/ri";
 import { ourTeam } from "./_constant/aboutUs.const";
 
+export const metadata = {
+  title: "Exploring World - About Us",
+  description: "Welcome to about us page.",
+  keywords: "about us, mission, team",
+};
+
 const AboutUs = () => {
   return (
     <div>

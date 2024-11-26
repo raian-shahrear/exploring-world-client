@@ -1,4 +1,5 @@
 import { TDisplayPost, TUser } from "@/types";
+import { downloadAsPDF } from "@/utils/downloadAsPDF";
 import React from "react";
 import { BiDownload } from "react-icons/bi";
 import { FaRegFilePdf } from "react-icons/fa";
@@ -6,10 +7,9 @@ import { FaRegFilePdf } from "react-icons/fa";
 type TProps = {
   post: TDisplayPost;
   loggedInUser: TUser;
-  onDownload: (data: TDisplayPost) => void;
 };
 
-const PostDetails = ({ post, loggedInUser, onDownload }: TProps) => {
+const PostDetails = ({ post, loggedInUser }: TProps) => {
   return (
     <div className="mt-6">
       <div id={post?._id}>
@@ -19,7 +19,7 @@ const PostDetails = ({ post, loggedInUser, onDownload }: TProps) => {
             <p className="text-sm font-medium">{post?.category?.title}</p>
           </div>
           <button
-            onClick={() => onDownload(post)}
+            onClick={() => downloadAsPDF(post?._id, post?.title)}
             className="border border-gray-300 rounded-md p-1 flex items-center gap-1 justify-center h-fit transition-all duration-300 hover:bg-gray-200"
           >
             <span className="text-sm">

@@ -1,6 +1,12 @@
 import ContactUsText from "./_component/ContactUsText";
 import ContactUsForm from "./_component/ContactUsForm";
 
+export const metadata = {
+  title: "Exploring World - Contact Us",
+  description: "Welcome to contact us page.",
+  keywords: "contact us, phone, email, address, location",
+};
+
 const ContactUs = () => {
   return (
     <div>

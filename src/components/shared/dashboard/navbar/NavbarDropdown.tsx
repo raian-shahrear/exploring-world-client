@@ -3,25 +3,18 @@ import { logoutUser } from "@/actions/AuthActions";
 import { protectedRoutes } from "@/constant";
 import { useUser } from "@/context/user.provider";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { FaCheckCircle } from "react-icons/fa";
-import { IoCloseSharp } from "react-icons/io5";
-import { MdOutlineLogout, MdOutlineSpaceDashboard } from "react-icons/md";
+import { useState } from "react";
 import userAvatar from "@/assets/icons/user-avatar-black.png";
-import { useGetAllUser } from "@/hooks/auth.hook";
-import { TUser } from "@/types";
-import VerifyUserModal from "@/components/ui/modal/VerifyUserModal";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
+import { IoCloseSharp } from "react-icons/io5";
+import Link from "next/link";
+import { MdOutlineLogout } from "react-icons/md";
+import { FaUserCog } from "react-icons/fa";
 
-const NavbarUserDropdown = () => {
+const NavbarDropdown = () => {
   const [controlDropdown, setControlDropdown] = useState(false);
   const { user, setIsLoading: setUserLoading } = useUser();
-  const { data: allUsers } = useGetAllUser();
-  const loggedInUser: TUser = allUsers?.data?.find(
-    (info: TUser) => info?._id === user?.id
-  );
   const pathname = usePathname();
   const router = useRouter();
 
@@ -63,15 +56,6 @@ const NavbarUserDropdown = () => {
             >
               {user?.userEmail}
             </p>
-            {loggedInUser?.isVerified === "verified" ? (
-              <span className="text-green-600 text-[11px] font-medium flex items-center gap-1">
-                <FaCheckCircle /> Verified
-              </span>
-            ) : loggedInUser?.isVerified === "pending" ? (
-              <VerifyUserModal />
-            ) : (
-              ""
-            )}
           </div>
           <span
             className="absolute top-2 right-4 cursor-pointer"
@@ -84,13 +68,13 @@ const NavbarUserDropdown = () => {
         <ul className="p-1 pt-0">
           <li onClick={() => setControlDropdown(false)}>
             <Link
-              href="/dashboard"
+              href="/dashboard/my-profile"
               className="w-full flex items-center gap-1 p-2 cursor-pointer rounded-md text-sm transition-all duration-300 hover:bg-gray-100"
             >
               <span className="text-base">
-                <MdOutlineSpaceDashboard />
+                <FaUserCog />
               </span>
-              Dashboard
+              My Profile
             </Link>
           </li>
           <li onClick={() => setControlDropdown(false)}>
@@ -110,4 +94,4 @@ const NavbarUserDropdown = () => {
   );
 };
 
-export default NavbarUserDropdown;
+export default NavbarDropdown;

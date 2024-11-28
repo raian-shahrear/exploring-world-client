@@ -16,13 +16,15 @@ const HomePage = () => {
     <div
       className={`grid ${
         findUser
-          ? "grid-cols-1 md:grid-cols-[200px_auto] lg:grid-cols-[250px_auto_250px]"
-          : "grid-cols-1 xl:w-8/12 mx-auto"
+          ? "grid-cols-1 lg:grid-cols-[250px_auto_250px]"
+          : "grid-cols-1 lg:grid-cols-[250px_auto_250px]"
       } gap-6 relative`}
     >
-      {findUser && (
-        <SidebarProfile userLoading={userLoading} findUser={findUser} />
-      )}
+      <SidebarProfile
+        findUser={findUser}
+        controlCategoryTab={controlCategoryTab}
+        setControlCategoryTab={setControlCategoryTab}
+      />
       <div>
         {findUser && findUser?.role === "user" && (
           <div className="border rounded-lg p-6">
@@ -30,8 +32,8 @@ const HomePage = () => {
           </div>
         )}
         <div
-          className={`${
-            findUser && findUser?.role === "user" ? "mt-6" : "mt-0"
+          className={`block lg:hidden ${
+            findUser && findUser?.role === "user" ? "mt-6 mb-0" : "mt-0 mb-6"
           }`}
         >
           <PostCategory
@@ -39,7 +41,7 @@ const HomePage = () => {
             setControlCategoryTab={setControlCategoryTab}
           />
         </div>
-        <div className="mt-6 flex flex-col gap-6">
+        <div className={`${findUser ? "mt-6": "mt-0"} flex flex-col gap-6`}>
           <PostCard
             controlCategoryTab={controlCategoryTab}
             userLoading={userLoading}
@@ -47,9 +49,7 @@ const HomePage = () => {
           />
         </div>
       </div>
-      {findUser && findUser?.role === "user" && (
-        <SidebarFollow userLoading={userLoading} findUser={findUser} />
-      )}
+        <SidebarFollow findUser={findUser} />
     </div>
   );
 };

@@ -54,8 +54,8 @@ const EmailEditModal = ({ user, setUserLoading }: TProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <span className="text-xs text-white font-semibold cursor-pointer transition-all duration-300 hover:underline">
-          Want to change email?
+        <span className="text-xs text-gray-900 font-semibold text-center bg-gray-100 py-1 px-2 rounded-md cursor-pointer transition-all duration-300 hover:bg-gray-300">
+          Change email
         </span>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] lg:max-w-[550px]">

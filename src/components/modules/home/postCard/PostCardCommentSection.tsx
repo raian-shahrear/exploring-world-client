@@ -4,7 +4,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { BiDislike, BiLike } from "react-icons/bi";
-import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+import {
+  IoIosShareAlt,
+  IoMdArrowDropdown,
+  IoMdArrowDropup,
+} from "react-icons/io";
 import userAvatar from "@/assets/icons/user-avatar-black.png";
 import PostEditCommentModal from "./PostEditCommentModal";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -17,6 +21,9 @@ import {
 } from "@/hooks/comment.hook";
 import { formatPostDate } from "@/utils/postDate";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 type TProps = {
   findUser: TLoggedInUser | null;
@@ -38,6 +45,7 @@ const PostCardCommentSection = ({
   const { mutate: handleDeleteComment } = useDeleteComment();
   const [upvoteUser, setUpvoteUser] = useState<string | undefined>("");
   const [downvoteUser, setDownvoteUser] = useState<string | undefined>("");
+  const [copyText, setCopyText] = useState(false);
 
   useEffect(() => {
     const upvote = post?.upvote?.find((user) => user === findUser?.id);
@@ -67,6 +75,11 @@ const PostCardCommentSection = ({
     }
   };
 
+  const handleCopyToClipboard = () => {
+    setCopyText(true);
+    toast.success(`Post link is copied to clipboard!`);
+    console.log(copyText);
+  };
   return (
     <>
       <div className="mt-6 pt-6 border-t flex justify-between items-center">
@@ -76,7 +89,9 @@ const PostCardCommentSection = ({
           findUser?.role === "user" ? (
             <div className="flex items-center gap-1">
               <button
-                className={`flex items-center gap-1 text-xs py-1 px-2 bg-gray-200 rounded-md me-2 ${upvoteUser && "text-blue-500"}`}
+                className={`flex items-center gap-1 text-xs py-1 px-2 bg-gray-200 rounded-md me-2 ${
+                  upvoteUser && "text-blue-500"
+                }`}
                 onClick={() => handlePostUpvote(post?._id)}
               >
                 <span className="text-sm">
@@ -85,7 +100,9 @@ const PostCardCommentSection = ({
                 Upvote {post?.upvote?.length ? post?.upvote?.length : "0"}
               </button>
               <button
-                className={`flex items-center gap-1 text-xs py-1 px-2 bg-gray-200 rounded-md me-2 ${downvoteUser && "text-blue-500"}`}
+                className={`flex items-center gap-1 text-xs py-1 px-2 bg-gray-200 rounded-md me-2 ${
+                  downvoteUser && "text-blue-500"
+                }`}
                 onClick={() => handlePostDownvote(post?._id)}
               >
                 <span className="text-sm">
@@ -93,6 +110,15 @@ const PostCardCommentSection = ({
                 </span>{" "}
                 Downvote {post?.downvote?.length ? post?.downvote?.length : "0"}
               </button>
+              <CopyToClipboard
+                text={`${window.location.origin}/posts/${post?._id}`}
+                onCopy={handleCopyToClipboard}
+              >
+                <Button className="h-fit flex items-center gap-1 text-xs py-1 px-2 rounded-md me-2">
+                  <IoIosShareAlt />
+                  <span>Share</span>
+                </Button>
+              </CopyToClipboard>
             </div>
           ) : (
             <>

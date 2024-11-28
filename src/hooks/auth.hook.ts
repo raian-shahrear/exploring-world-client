@@ -7,6 +7,7 @@ import {
   unfollowUser,
   updatePassword,
   updateUser,
+  updateUserCover,
   updateUserEmail,
   updateUserRole,
   verifyUser,
@@ -109,6 +110,23 @@ export const useUpdateUser = () => {
       await updateUser(userId, userData),
     onSuccess: ({ decodedUser, data }) => {
       setUser(decodedUser as TLoggedInUser);
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["GET_USER"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+// update user
+export const useUpdateUserCover = () => {
+  const queryClient = useQueryClient();
+  return useMutation<any, Error, { userId: string; coverImg: FormData }, void>({
+    mutationKey: ["UPDATE_USER_COVER"],
+    mutationFn: async ({ userId, coverImg }) =>
+      await updateUserCover(userId, coverImg),
+    onSuccess: (data) => {
       toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["GET_USER"] });
     },

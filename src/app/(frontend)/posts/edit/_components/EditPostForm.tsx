@@ -62,7 +62,7 @@ const EditPostForm = ({ params }: TEditPostProps) => {
       setTravelGuide(fetchedPost?.premium?.travelGuide || "");
       setDestinationTips(fetchedPost?.premium?.destinationTips || "");
     }
-  }, [getSinglePostLoading, postSingleData, router, setValue]);
+  }, [getSinglePostLoading, postSingleData, setValue]);
 
   const handlePost: SubmitHandler<FieldValues> = async (data) => {
     if (isValid || !isSubmitting) {

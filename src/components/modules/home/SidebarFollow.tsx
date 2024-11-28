@@ -3,14 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { TLoggedInUser, TUser } from "@/types";
 import { useGetAllUser, useUnfollowUser } from "@/hooks/auth.hook";
-import { Skeleton } from "@/components/ui/skeleton";
+import eventImg1 from "@/assets/dashboard/profile-cover.jpg";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 type TProps = {
-  userLoading: boolean;
-  findUser: TLoggedInUser;
+  findUser: TLoggedInUser | null;
 };
 
-const SidebarFollow = ({ userLoading, findUser }: TProps) => {
+const SidebarFollow = ({ findUser }: TProps) => {
   const { data: allUsers } = useGetAllUser();
   const loggedInUser: TUser = allUsers?.data?.find(
     (user: TUser) => user?._id === findUser?.id
@@ -25,20 +25,50 @@ const SidebarFollow = ({ userLoading, findUser }: TProps) => {
   };
   return (
     <>
-      {userLoading ? (
-        <Skeleton className="h-fit lg:h-[85vh] rounded-lg p-6 md:sticky top-[100px] shadow-lg" />
-      ) : (
-        <div className="bg-gray-50 h-[85vh] rounded-lg p-6 shadow-lg sticky top-[100px] overflow-auto hidden lg:block">
-          <div>
-            <p className="text-sm font-semibold">
-              Following: {findUser?.following?.length}
-            </p>
-            <div className="mt-2 flex flex-col gap-1">
-              {loggedInUser?.following?.map((follow: any, idx: number) => (
-                <div key={idx} className="grid grid-cols-[auto_50px] gap-3">
-                  <Link
-                    href={`/profile/following/${follow?.user?._id}/posts`}
-                    className="grid grid-cols-[28px_auto] items-center gap-2 w-fit"
+      <div className="hidden lg:block">
+        {findUser && findUser?.role === "user" && (
+          <div className="bg-gray-50 max-h-[450px] overflow-y-auto rounded-lg p-6 shadow-lg">
+            <div>
+              <p className="text-sm font-semibold">
+                Following: {findUser?.following?.length}
+              </p>
+              <div className="mt-2 flex flex-col gap-1">
+                {loggedInUser?.following?.map((follow: any, idx: number) => (
+                  <div key={idx} className="grid grid-cols-[auto_50px] gap-3">
+                    <Link
+                      href={`/profile/following/${follow?.user?._id}/posts`}
+                      className="grid grid-cols-[28px_auto] items-center gap-2 w-fit"
+                    >
+                      <Image
+                        src={follow?.user?.profile}
+                        alt="user"
+                        width={28}
+                        height={28}
+                        className="rounded-full border w-7 h-7 object-cover object-center"
+                      />
+                      <p className="text-xs font-semibold flex flex-col text-ellipsis whitespace-nowrap overflow-hidden">
+                        <span>{follow?.user?.name}</span>
+                      </p>
+                    </Link>
+                    <button
+                      className="text-blue-500 font-semibold text-xs"
+                      onClick={() => handleUnfollowUser(follow?.user?._id)}
+                    >
+                      Unfollow
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className=" mt-6">
+              <p className="text-sm font-semibold">
+                Followers: {findUser?.follower?.length}
+              </p>
+              <div className="mt-2 flex flex-col gap-1">
+                {loggedInUser?.follower?.map((follow: any, idx: number) => (
+                  <div
+                    key={idx}
+                    className="grid grid-cols-[24px_auto] items-center gap-2 w-fit"
                   >
                     <Image
                       src={follow?.user?.profile}
@@ -47,46 +77,121 @@ const SidebarFollow = ({ userLoading, findUser }: TProps) => {
                       height={28}
                       className="rounded-full border w-7 h-7 object-cover object-center"
                     />
-                    <p className="text-xs font-semibold flex flex-col text-ellipsis whitespace-nowrap overflow-hidden">
-                      <span>{follow?.user?.name}</span>
+                    <p className="text-xs font-semibold text-ellipsis whitespace-nowrap overflow-hidden">
+                      {follow?.user?.name}
                     </p>
-                  </Link>
-                  <button
-                    className="text-blue-500 font-semibold text-xs"
-                    onClick={() => handleUnfollowUser(follow?.user?._id)}
-                  >
-                    Unfollow
-                  </button>
-                </div>
-              ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          <div className=" mt-6">
-            <p className="text-sm font-semibold">
-              Followers: {findUser?.follower?.length}
-            </p>
-            <div className="mt-2 flex flex-col gap-1">
-              {loggedInUser?.follower?.map((follow: any, idx: number) => (
-                <div
-                  key={idx}
-                  className="grid grid-cols-[24px_auto] items-center gap-2 w-fit"
-                >
-                  <Image
-                    src={follow?.user?.profile}
-                    alt="user"
-                    width={28}
-                    height={28}
-                    className="rounded-full border w-7 h-7 object-cover object-center"
-                  />
-                  <p className="text-xs font-semibold text-ellipsis whitespace-nowrap overflow-hidden">
-                    {follow?.user?.name}
-                  </p>
-                </div>
-              ))}
-            </div>
+        )}
+        <div
+          className={`max-h-[450px] overflow-y-auto bg-gray-50 rounded-lg p-6 shadow-lg ${
+            findUser ? "mt-6" : "mt-0"
+          }`}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-sm font-bold">Current events</p>
+            <Link href="/events" className="text-xs font-semibold flex items-center gap-1 text-blue-500 transition-all duration-300 hover:text-gray-900">
+              <span>View all</span>
+              <span>
+                <FaArrowRightLong />
+              </span>
+            </Link>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Link
+              href="/events/1"
+              className="grid grid-cols-[50px_auto] gap-2 p-2 bg-gray-200 rounded-md transition-all duration-300 hover:bg-gray-300"
+            >
+              <Image
+                src={eventImg1}
+                alt="event"
+                width={50}
+                height={50}
+                className="h-full object-cover"
+              />
+              <div>
+                <p className="text-sm font-semibold">Event title</p>
+                <p className="text-[10px] font-semibold">
+                  Fri, 30th Nov 2024 at 15:00
+                </p>
+                <p className="text-xs mt-1">
+                  <span className="text-gray-500">Event by</span>{" "}
+                  <span className="font-semibold">ABC Ltd.</span>
+                </p>
+              </div>
+            </Link>
+            <Link
+              href="/events/2"
+              className="grid grid-cols-[50px_auto] gap-2 p-2 bg-gray-200 rounded-md transition-all duration-300 hover:bg-gray-300"
+            >
+              <Image
+                src={eventImg1}
+                alt="event"
+                width={50}
+                height={50}
+                className="h-full object-cover"
+              />
+              <div>
+                <p className="text-sm font-semibold">Event title</p>
+                <p className="text-[10px] font-semibold">
+                  Fri, 30th Nov 2024 at 15:00
+                </p>
+                <p className="text-xs mt-1">
+                  <span className="text-gray-500">Event by</span>{" "}
+                  <span className="font-semibold">ABC Ltd.</span>
+                </p>
+              </div>
+            </Link>
+            <Link
+              href="/events/3"
+              className="grid grid-cols-[50px_auto] gap-2 p-2 bg-gray-200 rounded-md transition-all duration-300 hover:bg-gray-300"
+            >
+              <Image
+                src={eventImg1}
+                alt="event"
+                width={50}
+                height={50}
+                className="h-full object-cover"
+              />
+              <div>
+                <p className="text-sm font-semibold">Event title</p>
+                <p className="text-[10px] font-semibold">
+                  Fri, 30th Nov 2024 at 15:00
+                </p>
+                <p className="text-xs mt-1">
+                  <span className="text-gray-500">Event by</span>{" "}
+                  <span className="font-semibold">ABC Ltd.</span>
+                </p>
+              </div>
+            </Link>
+            <Link
+              href="/events/4"
+              className="grid grid-cols-[50px_auto] gap-2 p-2 bg-gray-200 rounded-md transition-all duration-300 hover:bg-gray-300"
+            >
+              <Image
+                src={eventImg1}
+                alt="event"
+                width={50}
+                height={50}
+                className="h-full object-cover"
+              />
+              <div>
+                <p className="text-sm font-semibold">Event title</p>
+                <p className="text-[10px] font-semibold">
+                  Fri, 30th Nov 2024 at 15:00
+                </p>
+                <p className="text-xs mt-1">
+                  <span className="text-gray-500">Event by</span>{" "}
+                  <span className="font-semibold">ABC Ltd.</span>
+                </p>
+              </div>
+            </Link>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

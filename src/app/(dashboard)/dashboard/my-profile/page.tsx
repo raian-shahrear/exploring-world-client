@@ -1,7 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/user.provider";
-import { useUpdateUser } from "@/hooks/auth.hook";
+import {
+  useGetAllUser,
+  useUpdateUser,
+  useUpdateUserCover,
+} from "@/hooks/auth.hook";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { FaEdit, FaUserEdit } from "react-icons/fa";
 import { toast } from "sonner";
@@ -9,6 +13,10 @@ import MyProfileLoader from "./_components/MyProfileLoader";
 import CommonLoader from "@/components/ui/loading/CommonLoader";
 import EmailEditModal from "./_components/EmailEditModal";
 import PassChangeModal from "./_components/PassChangeModal";
+import Image from "next/image";
+import banner from "@/assets/dashboard/profile-cover.jpg";
+import { Skeleton } from "@/components/ui/skeleton";
+import { TUser } from "@/types";
 
 const MyProfile = () => {
   const {
@@ -16,8 +24,14 @@ const MyProfile = () => {
     isLoading: userLoading,
     setIsLoading: setUserLoading,
   } = useUser();
+  const { data: allUsers } = useGetAllUser();
+  const loggedInUser: TUser = allUsers?.data?.find(
+    (info: TUser) => info?._id === user?.id
+  );
   const { mutate: handleUpdateUser, isPending: updateUserPending } =
     useUpdateUser();
+  const { mutate: handleUpdateUserCover, isPending: updateUserCoverPending } =
+    useUpdateUserCover();
   const [preview, setPreview] = useState("");
 
   useEffect(() => {
@@ -63,9 +77,47 @@ const MyProfile = () => {
     }
   };
 
+  const handleCoverImgChange = async (file: any) => {
+    try {
+      const formData = new FormData();
+      if (file) {
+        formData.append("image", file);
+      }
+      handleUpdateUserCover({ userId: user!.id, coverImg: formData });
+    } catch (err: any) {
+      toast.error(
+        err?.data?.message ? err?.data?.message : "Something went wrong!"
+      );
+    }
+  };
+
   return (
     <div>
-      <h1 className="text-xl font-bold mb-6">My Profile</h1>
+      {updateUserCoverPending ? (
+        <Skeleton className="mb-6 w-full md:w-10/12 lg:w-10/12 mx-auto h-[30vh] rounded-lg"></Skeleton>
+      ) : (
+        <div className="mb-6 relative w-full md:w-10/12 lg:w-10/12 mx-auto">
+          <Image
+            width={300}
+            height={300}
+            src={loggedInUser?.cover ? loggedInUser?.cover : banner}
+            alt="banner"
+            className="rounded-lg w-full h-[30vh] object-cover"
+          />
+          <div className="absolute top-5 right-5 text-lg text-gray-900 bg-gray-300 p-2 rounded-full cursor-pointer transition-all duration-300 hover:bg-gray-700 hover:text-gray-100">
+            <input
+              type="file"
+              name="cover"
+              id="coverImg"
+              className="hidden"
+              onChange={(e) => handleCoverImgChange(e.target.files?.[0])}
+            />
+            <label htmlFor="coverImg" className="cursor-pointer">
+              <FaEdit />
+            </label>
+          </div>
+        </div>
+      )}
 
       {updateUserPending ? (
         <div className="flex justify-center items-center h-[50vh]">
@@ -76,8 +128,11 @@ const MyProfile = () => {
           {userLoading ? (
             <MyProfileLoader />
           ) : (
-            <section className="shadow-lg rounded-lg border-t-4 w-full md:w-8/12 lg:w-6/12">
-              <form onSubmit={handleSubmit} className="p-5">
+            <section className="shadow-lg rounded-lg border-t-4 w-full md:w-10/12 lg:w-10/12 mx-auto md:flex md:gap-4">
+              <form
+                onSubmit={handleSubmit}
+                className="p-5 w-full md:w-8/12 lg:w-8/12"
+              >
                 <div className="mb-2">
                   <input
                     type="file"
@@ -159,10 +214,17 @@ const MyProfile = () => {
                 </div>
               </form>
 
-              <div className="mt-4 flex items-center justify-center gap-2 bg-gray-900 p-2 rounded-bl-lg rounded-br-lg">
-                <EmailEditModal user={user} setUserLoading={setUserLoading} />
-                <span className="text-gray-500">|</span>
-                <PassChangeModal user={user} setUserLoading={setUserLoading} />
+              <div className="bg-gray-900 flex-1 flex flex-col justify-center items-center p-5 rounded-bl-lg md:rounded-bl-none md:rounded-tr-lg rounded-br-lg">
+                <p className="text-center text-sm text-gray-100 mb-5">
+                  Want to change your email or password ?
+                </p>
+                <div className="flex flex-row md:flex-col gap-3">
+                  <EmailEditModal user={user} setUserLoading={setUserLoading} />
+                  <PassChangeModal
+                    user={user}
+                    setUserLoading={setUserLoading}
+                  />
+                </div>
               </div>
             </section>
           )}

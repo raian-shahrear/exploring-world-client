@@ -61,10 +61,10 @@ const PassChangeModal = ({ user, setUserLoading }: TProps) => {
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
         <span
-          className="text-xs text-white font-semibold cursor-pointer transition-all duration-300 hover:underline"
+          className="text-xs text-gray-900 font-semibold text-center bg-gray-100 py-1 px-2 rounded-md cursor-pointer transition-all duration-300 hover:bg-gray-300"
           onClick={() => setModalOpen(true)}
         >
-          Want to change password?
+          Change password
         </span>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] lg:max-w-[550px]">

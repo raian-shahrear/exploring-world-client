@@ -1,4 +1,3 @@
-import React from "react";
 import PostDetailsSection from "./_components/PostDetailsSection";
 
 export const metadata = {

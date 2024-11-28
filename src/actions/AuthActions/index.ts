@@ -166,6 +166,24 @@ export const updateUser = async (
   }
 };
 
+// update user's cover
+export const updateUserCover = async (
+  userId: string,
+  formData: FormData
+): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/auth/users-cover/${userId}`,
+      formData
+    );
+    revalidateTag("user");
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message);
+  }
+};
+
 // update user email
 export const updateUserEmail = async (
   userId: string,

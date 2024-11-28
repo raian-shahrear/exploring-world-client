@@ -5,6 +5,8 @@ import NavbarUserDropdown from "./NavbarUserDropdown";
 import { useUser } from "@/context/user.provider";
 import NavbarItems from "./NavbarItems";
 import DotsLoader from "@/components/ui/loading/DotsLoader";
+import logo from "@/assets/icons/logo.jpg";
+import Image from "next/image";
 
 const FrontendNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,9 +19,16 @@ const FrontendNavbar = () => {
             href="/"
             aria-label="Exploring World"
             title="Exploring World"
-            className="inline-flex items-center gap-2"
+            className="flex items-center gap-2"
           >
-            <span className="tex-lg md:text-xl font-bold flex gap-1">
+            <Image
+              src={logo}
+              alt="logo"
+              width={26}
+              height={26}
+              className="w-[22px] h-[22px] md:w-[26px] md:h-[26px]"
+            />
+            <span className="tex-lg md:text-xl font-bold flex gap-1 font-logo">
               <span>Exploring</span>
               <span>World</span>
             </span>
@@ -122,9 +131,16 @@ const FrontendNavbar = () => {
                         href="/"
                         aria-label="Exploring World"
                         title="Exploring World"
-                        className="inline-flex items-center"
+                        className="flex items-center gap-2"
                       >
-                        <span className="text-lg md:text-xl font-bold tracking-wide text-gray-900 uppercase">
+                        <Image
+                          src={logo}
+                          alt="logo"
+                          width={26}
+                          height={26}
+                          className="w-[22px] h-[22px] md:w-[26px] md:h-[26px]"
+                        />
+                        <span className="tex-lg md:text-xl font-logo font-bold tracking-wide text-gray-900">
                           Exploring World
                         </span>
                       </Link>

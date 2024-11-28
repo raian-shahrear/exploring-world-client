@@ -49,6 +49,7 @@ export type TUser = {
   isVerified: string;
   needPassChange?: boolean;
   passwordChangedAt?: Date;
+  cover?: string;
   createdAt: string;
   updatedAt: string;
   __v: number;

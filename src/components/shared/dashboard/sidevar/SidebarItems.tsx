@@ -5,6 +5,7 @@ import { protectedRoutes } from "@/constant";
 import { useUser } from "@/context/user.provider";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { BiCalendarEvent } from "react-icons/bi";
 import { BsFileEarmarkPostFill } from "react-icons/bs";
 import { FaUserCheck, FaUserCog, FaUsers } from "react-icons/fa";
 import { MdOutlineLogout, MdOutlineSpaceDashboard } from "react-icons/md";
@@ -114,6 +115,23 @@ const SidebarItems = () => {
                   <FaUsers />
                 </span>
                 <span>Manage Users</span>
+              </Link>
+            </li>
+          )}
+          {user?.role === "admin" && (
+            <li>
+              <Link
+                href="/dashboard/event-management"
+                className={`flex items-center gap-2 w-full text-sm font-medium tracking-wide px-4 py-2 rounded-[40px] transition-all duration-300 hover:bg-gray-200 hover:text-gray-900 ${
+                  pathname === "/dashboard/event-management"
+                    ? "text-gray-900  bg-gray-200"
+                    : "text-gray-500"
+                }`}
+              >
+                <span className="text-lg">
+                  <BiCalendarEvent />
+                </span>
+                <span>Manage Events</span>
               </Link>
             </li>
           )}

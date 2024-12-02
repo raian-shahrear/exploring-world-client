@@ -18,6 +18,7 @@ const roleBaseRoutes = {
     "/dashboard/category",
     "/dashboard/users",
     "/dashboard/my-profile",
+    "/dashboard/event-management",
   ],
 };
 

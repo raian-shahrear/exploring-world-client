@@ -88,6 +88,35 @@ export type TDisplayComment = {
   __v: number;
 };
 
+export type THost = {
+  _id?: string;
+  logo: string;
+  name: string;
+};
+export type TGuest = {
+  _id?: string;
+  profile: string;
+  name: string;
+  designation: string;
+};
+export type TDisplayEvent = {
+  _id: string;
+  title: string;
+  eventBy: string;
+  eventDetails: string;
+  eventPlace: string;
+  eventPlaceLink: string;
+  eventDate: string;
+  eventTime: string;
+  eventImage: string;
+  isActive: boolean;
+  hostedBy: THost[] | [];
+  guests: TGuest[] | [];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+
 export type TFilterProps = {
   searchTerm?: string;
   sort?: string;

@@ -31,6 +31,18 @@ const NavbarItems = () => {
           News Feed
         </Link>
       </li>
+      <li>
+        <Link
+          href="/events"
+          className={`me-1 font-medium text-sm p-2 rounded-lg transition-all duration-300 hover:text-gray-900 hover:bg-gray-200 ${
+            pathname === "/events"
+              ? "text-gray-900  bg-gray-200"
+              : "text-gray-500"
+          }`}
+        >
+          Events
+        </Link>
+      </li>
       {user?.role === "user" && (
         <li>
           <Link

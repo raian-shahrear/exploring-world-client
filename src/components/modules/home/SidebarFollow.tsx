@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { TLoggedInUser, TUser } from "@/types";
+import { TDisplayEvent, TLoggedInUser, TUser } from "@/types";
 import { useGetAllUser, useUnfollowUser } from "@/hooks/auth.hook";
-import eventImg1 from "@/assets/dashboard/profile-cover.jpg";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { useGetAllEvents } from "@/hooks/event.hook";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type TProps = {
   findUser: TLoggedInUser | null;
@@ -16,6 +17,10 @@ const SidebarFollow = ({ findUser }: TProps) => {
     (user: TUser) => user?._id === findUser?.id
   );
   const { mutate: handleUnfollow } = useUnfollowUser();
+  const { data: events, isLoading: eventLoading } = useGetAllEvents({
+    limit: 5,
+    sort: "eventDate",
+  });
 
   const handleUnfollowUser = (followingId: string) => {
     const user = {
@@ -86,111 +91,59 @@ const SidebarFollow = ({ findUser }: TProps) => {
             </div>
           </div>
         )}
-        <div
-          className={`max-h-[450px] overflow-y-auto bg-gray-50 rounded-lg p-6 shadow-lg ${
-            findUser ? "mt-6" : "mt-0"
-          }`}
-        >
-          <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-bold">Current events</p>
-            <Link href="/events" className="text-xs font-semibold flex items-center gap-1 text-blue-500 transition-all duration-300 hover:text-gray-900">
-              <span>View all</span>
-              <span>
-                <FaArrowRightLong />
-              </span>
-            </Link>
+        {eventLoading ? (
+          <div>
+            <Skeleton className="w-full h-20 shadow-lg" />
           </div>
-          <div className="flex flex-col gap-2">
-            <Link
-              href="/events/1"
-              className="grid grid-cols-[50px_auto] gap-2 p-2 bg-gray-200 rounded-md transition-all duration-300 hover:bg-gray-300"
-            >
-              <Image
-                src={eventImg1}
-                alt="event"
-                width={50}
-                height={50}
-                className="h-full object-cover"
-              />
-              <div>
-                <p className="text-sm font-semibold">Event title</p>
-                <p className="text-[10px] font-semibold">
-                  Fri, 30th Nov 2024 at 15:00
-                </p>
-                <p className="text-xs mt-1">
-                  <span className="text-gray-500">Event by</span>{" "}
-                  <span className="font-semibold">ABC Ltd.</span>
-                </p>
-              </div>
-            </Link>
-            <Link
-              href="/events/2"
-              className="grid grid-cols-[50px_auto] gap-2 p-2 bg-gray-200 rounded-md transition-all duration-300 hover:bg-gray-300"
-            >
-              <Image
-                src={eventImg1}
-                alt="event"
-                width={50}
-                height={50}
-                className="h-full object-cover"
-              />
-              <div>
-                <p className="text-sm font-semibold">Event title</p>
-                <p className="text-[10px] font-semibold">
-                  Fri, 30th Nov 2024 at 15:00
-                </p>
-                <p className="text-xs mt-1">
-                  <span className="text-gray-500">Event by</span>{" "}
-                  <span className="font-semibold">ABC Ltd.</span>
-                </p>
-              </div>
-            </Link>
-            <Link
-              href="/events/3"
-              className="grid grid-cols-[50px_auto] gap-2 p-2 bg-gray-200 rounded-md transition-all duration-300 hover:bg-gray-300"
-            >
-              <Image
-                src={eventImg1}
-                alt="event"
-                width={50}
-                height={50}
-                className="h-full object-cover"
-              />
-              <div>
-                <p className="text-sm font-semibold">Event title</p>
-                <p className="text-[10px] font-semibold">
-                  Fri, 30th Nov 2024 at 15:00
-                </p>
-                <p className="text-xs mt-1">
-                  <span className="text-gray-500">Event by</span>{" "}
-                  <span className="font-semibold">ABC Ltd.</span>
-                </p>
-              </div>
-            </Link>
-            <Link
-              href="/events/4"
-              className="grid grid-cols-[50px_auto] gap-2 p-2 bg-gray-200 rounded-md transition-all duration-300 hover:bg-gray-300"
-            >
-              <Image
-                src={eventImg1}
-                alt="event"
-                width={50}
-                height={50}
-                className="h-full object-cover"
-              />
-              <div>
-                <p className="text-sm font-semibold">Event title</p>
-                <p className="text-[10px] font-semibold">
-                  Fri, 30th Nov 2024 at 15:00
-                </p>
-                <p className="text-xs mt-1">
-                  <span className="text-gray-500">Event by</span>{" "}
-                  <span className="font-semibold">ABC Ltd.</span>
-                </p>
-              </div>
-            </Link>
+        ) : (
+          <div
+            className={`max-h-[450px] overflow-y-auto bg-gray-50 rounded-lg p-6 shadow-lg ${
+              findUser && findUser?.role === "user" ? "mt-6" : "mt-0"
+            }`}
+          >
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-sm font-bold">Next events</p>
+              <Link
+                href="/events"
+                className="text-xs font-semibold flex items-center gap-1 text-blue-500 transition-all duration-300 hover:text-gray-900"
+              >
+                <span>View all</span>
+                <span>
+                  <FaArrowRightLong />
+                </span>
+              </Link>
+            </div>
+            <div className="flex flex-col gap-2">
+              {events?.data?.map((event: TDisplayEvent) => (
+                <Link
+                  key={event?._id}
+                  href={`/events/${event?._id}`}
+                  className="grid grid-cols-[48px_auto] gap-2 p-2 bg-gray-200 rounded-md transition-all duration-300 hover:bg-gray-300"
+                >
+                  <Image
+                    src={event?.eventImage}
+                    alt="event"
+                    width={48}
+                    height={48}
+                    unoptimized
+                    className="w-12 h-12 object-cover rounded-md"
+                  />
+                  <div>
+                    <p className="text-sm font-semibold">{event?.title}</p>
+                    <p className="text-[10px] font-semibold">
+                      {new Date(event?.eventDate).toDateString()} at{" "}
+                      {event?.eventTime}
+                    </p>
+                    <p className="text-xs mt-1">
+                      <span className="text-gray-500">Event by</span>{" "}
+                      <span className="font-semibold">{event?.eventBy}</span>
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );

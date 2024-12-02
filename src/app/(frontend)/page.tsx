@@ -41,7 +41,11 @@ const HomePage = () => {
             setControlCategoryTab={setControlCategoryTab}
           />
         </div>
-        <div className={`${findUser ? "mt-6": "mt-0"} flex flex-col gap-6`}>
+        <div
+          className={`${
+            findUser && findUser?.role === "user" ? "mt-6" : "mt-0"
+          } flex flex-col gap-6`}
+        >
           <PostCard
             controlCategoryTab={controlCategoryTab}
             userLoading={userLoading}
@@ -49,7 +53,7 @@ const HomePage = () => {
           />
         </div>
       </div>
-        <SidebarFollow findUser={findUser} />
+      <SidebarFollow findUser={findUser} />
     </div>
   );
 };
